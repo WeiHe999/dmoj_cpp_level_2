@@ -1,19 +1,3 @@
-/*
-Having finished her homework, Molly decides to write the DMOPC. However, as a kitten, she can't actually code, and decides to asks you to compete on her behalf. As you (probably) know, the DMOPC is systested, usually with batches. Failing any test case in a batch results in a score of 0 for that batch.
-
-Being the great hacker programmer that you are, you know precisely which cases belong to which batch, and 
-how your program will do on the cases. All that remains is to see how many points you can get…
-
-Input Specification
-Line 1: An integer, 𝐵, the number of batched cases that follow.
-Line 2…𝐵+1: 3 space separated integers, 𝑓𝑖, 𝑒𝑖, and 𝑝𝑖, indicating that the 𝑖𝑡ℎ batch starts on test case 𝑓𝑖, ends on case 𝑒𝑖, and is worth 𝑝𝑖 points.
-Line 𝐵+2: An integer, 𝐹, the number of test cases the program fails.
-Lines 𝐵+3…𝐵+𝐹+2: An integer, 𝑡𝑖, indicating the program fails the 𝑡𝑡ℎ𝑖 test case.
-
-Output Specification
-A single integer, the number of points the program can get.
-*/
-
 #include <iostream>
 #include <string>
 #include <vector>
