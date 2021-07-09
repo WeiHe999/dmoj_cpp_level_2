@@ -3,8 +3,16 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <stdio.h>
 
 using namespace std;
+template < typename T > void
+print (T t)
+{
+ for (const auto & e:t) cout << e << " ";
+  cout << endl;
+}
+
 vector<int>
 split(string str1)
 {
@@ -19,37 +27,37 @@ split(string str1)
 
 int main()
 {
-    cin.sync_with_stdio(0);
-    cin.tie(0);
     int n;
     cin >> n;
     cin.ignore();
     vector<vector<int> > vec1;
+    vector<string> v_s;
     int s = 0;
     for (int x = 0; x < n; x++) {
         string line;
         getline(cin, line);
-        vector<int> vec3 = split(line);
-        vec3.push_back(1);
-        vec1.push_back(vec3);
-        s += vec3[2];
+        v_s.push_back(line);
     }
 
     cin >> n;
+    int arr[n];
+    for(int i = 0; i < n; i++) scanf("%d", &arr[i]);
+    vector<int> vect_q(arr, arr+n);
+    sort(vect_q.begin(), vect_q.end());
     
-    for (int a = 0; a < n; a++) {
-        int b;
-        cin >> b;
-        for (int m=0; m<vec1.size(); m++) {
-            if (b >= vec1[m][0] && b <= vec1[m][1]) {
-                if (vec1[m][3] == 1)
-                {
-                    vec1[m][3] = 0;
-                    s -= vec1[m][2];
-                }
-            }
+    for (int m=0; m<v_s.size(); m++)
+    {
+        
+        vector<int> vec3 = split(v_s[m]);
+        if (upper_bound (vect_q.begin(), vect_q.end(), vec3[1]) - 
+        lower_bound (vect_q.begin(), vect_q.end(), vec3[0]) ==0)
+        {
+            s += vec3[2];
         }
+        
     }
+
+    
 
     cout << s;
     return 0;
