@@ -1,21 +1,52 @@
 #include <iostream>
+#include <algorithm>
+#include <unordered_map>
+#include <vector>
 #include <string>
+#include <sstream>
 using namespace std;
+
+vector < string > split (string str1)
+{
+  vector < string >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (word);
+    }
+  return vv;
+}
+
 int main()
 {
     cin.sync_with_stdio (0);
     cin.tie (0);
-    string str1;
-    getline(cin, str1);
-    int s;
-    cin >> s;
-    string min_s = str1.substr(0, s);
-    for (int x = 1; x < str1.length() - s; x++)
+    int n;
+    cin >> n;
+    cin.ignore();
+    vector <string> vec1;
+    unordered_map <string, string> decoder;
+    for (int x = 0; x < n; x++)
     {
-        if (min_s.compare(str1.substr(x, s)) > 0)
+        string line;
+        getline(cin, line);
+        vec1 = split(line);
+        decoder[vec1[1]] = vec1[0];
+    }
+    string text;
+    string str1 = "";
+    getline(cin, text);
+    while (text != "")
+    {
+        for (auto x : decoder)
         {
-            min_s = str1.substr(x, s);
+            if (text.find(x.first) == 0)
+            {
+                text = text.substr(x.first.length(), text.length() - x.first.length());
+                str1 += x.second;
+            }
         }
     }
-    cout << min_s;
+    cout << str1;
 }
