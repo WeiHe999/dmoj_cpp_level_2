@@ -1,3 +1,715 @@
+// For Valentine's day, AQT wants to give a letter to his valentine. He currently has a string 𝑆 of 5 lowercase letters and wants to give one to his valentine that isn't present in the string. Help him find one!
+
+// Constraints
+// |𝑆|=5
+
+// 𝑆 consists only of the letters abcdefghijklmnopqrstuvwxyz (lowercase English alphabet).
+
+// Input Specification
+// The first line contains the string 𝑆.
+
+// Output Specification
+// Output a letter that AQT does not have.
+// Note: If there are multiple letters that meet this criteria, output the one with lowest alphabetical order. See sample explanation for more details.
+
+// Sample Input
+// Copy
+// zdeac
+// Sample Output
+// Copy
+// b
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    string str1;
+    getline(cin, str1);
+    string alphabet = "abcedfghijklmnopqrstuvwxyz";
+    for (auto a : alphabet)
+    {
+        if (find(str1.begin(), str1.end(), a) == str1.end())
+        {
+            cout << a << endl;
+            break;
+        }
+    }
+}
+
+
+
+// Canadian Computing Competition: 2015 Stage 1, Senior #1
+// Your boss has asked you to add up a sequence of positive numbers to determine how much money your company made last year.
+
+// Unfortunately, your boss reads out numbers incorrectly from time to time.
+
+// Fortunately, your boss realizes when an incorrect number is read and says "zero", meaning "ignore the current last number."
+
+// Unfortunately, your boss can make repeated mistakes, and says "zero" for each mistake.
+
+// For example, your boss can say "One, three, five, four, zero, zero, seven, zero, zero, six", which means the total is 7 as explained in the following chart.
+
+// Boss statement(s)	Current numbers	Explanation
+// "One, three, five, four"	1, 3, 5, 4	Record the first four numbers.
+// "zero, zero"	1, 3	Ignore the last two numbers.
+// "seven"	1, 3, 7	Record the number 7 at the end of our list.
+// "zero, zero"	1	Ignore the last two numbers.
+// "six"	1, 6	We have read all numbers, and the total is 7.
+// At any point, your boss will have said at least as many positive numbers as "zero" statements. If all positive numbers have been ignored, the sum is zero.
+
+// Write a program that reads the sequence of boss statements and computes the correct sum.
+
+// Input Specification
+// The first line of input contains the integer 𝐾 (1≤𝐾≤100000) which is the number of integers (including "zero") your boss will say. On each of the 𝐾 lines, there will either be one integer between 1 and 100 (inclusive) or the integer 0.
+
+// Output Specification
+// The output is one line, containing the integer which is the correct sum of the integers read, taking the "zero" statements into consideration. You can assume that the output will be an integer in the range 0 and 1000000 (inclusive).
+
+// Sample Input 1
+// Copy
+// 4
+// 3
+// 0
+// 4
+// 0
+// Sample Output 1
+// Copy
+// 0
+// Sample Input 2
+// Copy
+// 10
+// 1
+// 3
+// 5
+// 4
+// 0
+// 0
+// 7
+// 0
+// 0
+// 6
+// Sample Output 2
+// Copy
+// 7
+
+#include <iostream>
+#include <stack>
+using namespace std;
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    int a;
+    stack <int> s1;
+    for (int x = 0; x < n; x++)
+    {
+        cin >> a;
+        if (a == 0) s1.pop();
+        else s1.push(a);
+    }
+    int s = 0;
+    while (!s1.empty())
+    {
+        s += s1.top();
+        s1.pop();
+    }
+    cout << s << endl;
+}
+
+
+// Canadian Computing Competition: 2016 Stage 1, Junior #5, Senior #2
+// Since time immemorial, the citizens of Dmojistan and Pegland have been at war. Now, they have finally signed a truce. They have decided to participate in a tandem bicycle ride to celebrate the truce. There are 𝑁 citizens from each country. They must be assigned to pairs so that each pair contains one person from Dmojistan and one person from Pegland.
+
+// Each citizen has a cycling speed. In a pair, the fastest person will always operate the tandem bicycle while the slower person simply enjoys the ride. In other words, if the members of a pair have speeds 𝑎 and 𝑏, then the bike speed of the pair is max(𝑎,𝑏). The total speed is the sum of the 𝑁 individual bike speeds.
+
+// For this problem, in each test case, you will be asked to answer one of two questions:
+
+// Question 1: what is the minimum total speed, out of all possible assignments into pairs?
+// Question 2: what is the maximum total speed, out of all possible assignments into pairs?
+// Input Specification
+// The first line will contain the type of question you are to solve, which is either 1 or 2.
+
+// The second line contains 𝑁 (1≤𝑁≤100).
+
+// The third line contains 𝑁 space-separated integers: the speeds of the citizens of Dmojistan.
+
+// The fourth line contains 𝑁 space-separated integers: the speeds of the citizens of Pegland.
+
+// Each person's speed will be an integer between 1 and 1000000.
+
+// For 8 of the 15 available marks, questions of type 1 will be asked. For 7 of the 15 available marks, questions of type 2 will be asked.
+
+// Output Specification
+// Output the maximum or minimum total speed that answers the question asked.
+
+// Sample Input 1
+// Copy
+// 1
+// 3
+// 5 1 4
+// 6 2 4
+// Output for Sample Input 1
+// Copy
+// 12
+// Explanation for Output for Sample Input 1
+// There is a unique optimal solution:
+
+// Pair the citizen from Dmojistan with speed 5 and the citizen from Pegland with speed 6.
+// Pair the citizen from Dmojistan with speed 1 and the citizen from Pegland with speed 2.
+// Pair the citizen from Dmojistan with speed 4 and the citizen from Pegland with speed 4.
+// Sample Input 2
+// Copy
+// 2
+// 3
+// 5 1 4
+// 6 2 4
+// Output for Sample Input 2
+// Copy
+// 15
+// Explanation for Output for Sample Input 2
+// There are multiple possible optimal solutions. Here is one optimal solution:
+
+// Pair the citizen from Dmojistan with speed 5 and the citizen from Pegland with speed 2.
+// Pair the citizen from Dmojistan with speed 1 and the citizen from Pegland with speed 6.
+// Pair the citizen from Dmojistan with speed 4 and the citizen from Pegland with speed 4.
+// Sample Input 3
+// Copy
+// 2
+// 5
+// 202 177 189 589 102
+// 17 78 1 496 540
+// Output for Sample Input 3
+// Copy
+// 2016
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int q, n;
+    cin >> q;
+    cin >> n;
+    cin.ignore();
+    string str1, str2;
+    getline(cin, str1);
+    getline(cin, str2);
+    vector <int> vec1 = split(str1);
+    vector <int> vec2 = split(str2);
+    int s = 0;
+    if (q == 1)
+    {
+        sort(vec1.begin(), vec1.end());
+        sort(vec2.begin(), vec2.end());
+        int min_e1;
+        int min_e2;
+        for (int x = 0; x < n; x++)
+        {
+            min_e1 = vec1[x];
+            min_e2 = vec2[x];
+            if (min_e1 < min_e2) s += min_e2;
+            else s += min_e1;
+        }
+    }
+    if (q == 2)
+    {
+        sort(vec1.rbegin(), vec1.rend());
+        sort(vec2.begin(), vec2.end());
+        int max_e1;
+        int max_e2;
+        for (int x = 0; x < n; x++)
+        {
+            max_e1 = vec1[x];
+            max_e2 = vec2[x];
+            if (max_e1 > max_e2) s += max_e1;
+            else s += max_e2;
+        }
+    }
+    cout << s << endl;
+}
+
+
+// Everyone knows that laughter comes in three types of pitches: up, down, and right. Kiara is especially interested in the laughing patterns of her friend, and wishes to graph it out to see what interesting shapes come out.
+
+// Kiara wants you to generate the graph of a laugh that is 𝑁 pitches long. Each pitch will be given to you either as the character ^ (for up), v (for down), or > (for right).
+
+// To generate the graph, imagine that you are working on a 2D grid of characters with infinite rows and 𝑁 columns. In the beginning, all characters in the grid are set to ., and your cursor is positioned in the first column. For every pitch given to you, perform the respective action:
+
+// ^ pitch: replace the current character with /, and move the cursor one character to the right and one character up.
+// v pitch: move the cursor one character down, replace the current character with \, and move the cursor one character to the right.
+// > pitch: replace the current character with _, and move the cursor one character to the right.
+// Although our hypothetical grid has infinite rows, for ease of comprehension, you should output only the rows which contain a character that is not . (i.e. print out all rows that contain one of /, \, or _).
+
+// Constraints
+// 1≤𝑁≤1000
+
+// Input Specification
+// The first line will contain a single integer 𝑁. The second line will contain a string of 𝑁 characters, each of which will be one of ^, v, or >.
+
+// Output Specification
+// Output the laugh graph, using the procedure described.
+
+// Sample Input 1
+// Copy
+// 6
+// vv>^^^
+// Sample Output 1
+// Copy
+// ...../
+// \.../.
+// .\_/..
+// Sample Input 2
+// Copy
+// 5
+// vvvvv
+// Sample Output 2
+// Copy
+// \....
+// .\...
+// ..\..
+// ...\.
+// ....\
+// Explanation of Sample Output 2
+// Note that only rows containing non-. characters should be included.
+#include <iostream>
+#include <vector>
+using namespace std;
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    vector <vector<char> > vec1;
+    vector <char> tmp;
+    for (int x = 0; x <= (2 * n); x++)
+    {
+        tmp.assign(n, '.');
+        vec1.push_back(tmp);
+    }
+    int x = n;
+    int y = 0;
+    for (auto a : line)
+    {
+        if (a == '^')
+        {
+            vec1[x][y] = '/';
+            x--;
+            y++;
+        }
+        if (a == 'v')
+        {
+            x++;
+            vec1[x][y] = '\\';
+            y++;
+        }
+        if (a == '>')
+        {
+            vec1[x][y] = '_';
+            y++;
+        }
+    }
+    for (auto b : vec1)
+    {
+        if (b != tmp)
+        {
+            for (auto c : b)
+            {
+                cout << c;
+            }
+            cout << endl;
+        }
+    }
+}
+
+
+// AQT is studying fractions and he has encountered 𝑇 problems. In each problem, AQT is given a fraction with a numerator 𝐴 and a denominator 𝐵 (𝐴<𝐵). AQT wants to know after converting the fraction to a decimal and removing all terminating zeroes, how many digits there are to the right of the decimal. Can you help AQT answer all 𝑇 problems?
+
+// Constraints
+// In all subtasks,
+
+// 1≤𝑇≤103
+
+// 1≤𝐴<𝐵≤1018
+
+// Subtask 1 [10%]
+// 𝑇=1
+
+// 1≤𝐴<𝐵≤5
+
+// Subtask 2 [10%]
+// 𝐵 is a multiple of 10
+
+// Subtask 3 [30%]
+// 1≤𝐴<𝐵≤109
+
+// Subtask 4 [50%]
+// No additional constraints.
+
+// Input Specification
+// The first line contains 𝑇, the number of problems you need to help AQT solve.
+
+// The next 𝑇 lines contain 𝐴 and 𝐵, the numerator and the denominator of the fraction, respectively.
+
+// Output Specification
+// For each problem, output the answer to the problem if the answer is finite or −1, if the answer is infinite.
+
+// Sample Input 1
+// Copy
+// 4
+// 1 3
+// 2 5
+// 3 9
+// 1 4
+// Sample Output 1
+// Copy
+// -1
+// 1
+// -1
+// 2
+// Explanation for Sample 1
+// For the first test case, 13=0.3⎯⎯⎯.
+
+// For the second test case, 25=0.4.
+
+// For the third test case, 39=0.3⎯⎯⎯.
+
+// For the fourth test case, 14=0.25.
+
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+#include <stdio.h>
+#include <unordered_map>
+using namespace std;
+
+template < typename T > void
+print (T t)
+{
+ for (const auto & e:t) cout << e << " ";
+  cout << endl;
+}
+
+vector < string > split (string str1)
+{
+  vector < string >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (word);
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int a;
+    cin >> a;
+    for (int x = 0; x < a; x++)
+    {
+        long long n, d;
+        cin >> n >> d;
+        long long b = __gcd(n, d);
+        long long d1 = d / b;
+        int s1 = 0;
+        int s2 = 0;
+        while (d1 % 2 == 0) 
+        {
+            d1 = d1 / 2;
+            s1++;
+        }
+        while (d1 % 5 == 0) 
+        {
+            d1 = d1 / 5;
+            s2++;
+        }
+        if (d1 != 1) cout << -1 << endl;
+        else
+        {
+            if (s1 > s2) cout << s1 << endl;
+            else cout << s2 << endl;
+        }
+    }
+}
+
+
+// In order to improve their physical fitness, the cows have taken up gymnastics! Farmer John designates his favorite cow Bessie to coach the 𝑁 other cows and to assess their progress as they learn various gymnastic skills.
+
+// In each of 𝐾 practice sessions (1≤𝐾≤10), Bessie ranks the 𝑁 cows according to their performance (1≤𝑁≤20). Afterward, she is curious about the consistency in these rankings. A pair of two distinct cows is consistent if one cow did better than the other one in every practice session.
+
+// Help Bessie compute the total number of consistent pairs.
+
+// INPUT FORMAT:
+// The first line of the input file contains two positive integers 𝐾 and 𝑁.
+
+// The next 𝐾 lines will each contain the integers 1,…,𝑁 in some order, indicating the rankings of the cows (cows are identified by the numbers 1,…,𝑁). If 𝐴 appears before 𝐵 in one of these lines, that means cow 𝐴 did better than cow 𝐵.
+
+// OUTPUT FORMAT:
+// Output, on a single line, the number of consistent pairs.
+
+// SAMPLE INPUT:
+// Copy
+// 3 4
+// 4 1 2 3
+// 4 1 3 2
+// 4 2 1 3
+// SAMPLE OUTPUT:
+// Copy
+// 4
+// Explanation
+// The consistent pairs of cows are (1,4), (2,4), (3,4), and (1,3).
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+
+template < typename T > void
+print (T t)
+{
+ for (const auto & e:t) cout << e << " ";
+  cout << endl;
+}
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int k, n;
+    cin >> k >> n;
+    cin.ignore();
+    vector <vector<int> > vec2;
+    vector <int> vec1;
+    for (int x = 0; x < k; x++)
+    {
+        string line;
+        getline(cin, line);
+        vec1 = split(line);
+        vec2.push_back(vec1);
+    }
+    int s1 = 0;
+    int s2;
+    for (int a = 0; a < n - 1; a++)
+    {
+        for (int b = a + 1; b < n; b++)
+        {
+            int cow_1 = vec2[0][a];
+            int cow_2 = vec2[0][b];
+            s2 = 0;
+            for (int c = 1; c < k; c++)
+            {
+                int index_cow_1 = find(vec2[c].begin(), vec2[c].end(), cow_1) - vec2[c].begin();
+                int index_cow_2 = find(vec2[c].begin(), vec2[c].end(), cow_2) - vec2[c].begin();
+                if (index_cow_1 < index_cow_2) s2++;
+            }
+            if (s2 == k-1) s1++;
+        }
+    }
+    cout << s1 << endl;
+}
+
+
+// Farmer John has gone out for a walk down the road and thinks he may now be lost!
+
+// Along the road there are 𝑁 farms (1≤𝑁≤100) in a row. Farms unfortunately do not have house numbers, making it hard for Farmer John to figure out his location along the road. However, each farm does have a colorful mailbox along the side of the road, so Farmer John hopes that if he looks at the colors of the mailboxes nearest to him, he can uniquely determine where he is.
+
+// Each mailbox color is specified by a letter in the range 𝐴,…,𝑍, so the sequence of 𝑁 mailboxes down the road can be represented by a string of length 𝑁 containing letters in the range 𝐴,…,𝑍. Some mailboxes may have the same colors as other mailboxes. Farmer John wants to know what is the smallest value of 𝐾 such that if he looks at any sequence of 𝐾 consecutive mailboxes, he can uniquely determine the location of that sequence along the road.
+
+// For example, suppose the sequence of mailboxes along the road is ABCDABC. Farmer John cannot set 𝐾=3, since if he sees ABC, there are two possible locations along the road where this consecutive set of colors might be. The smallest value of 𝐾 that works is 𝐾=4, since if he looks at any consecutive set of 4 mailboxes, this sequence of colors uniquely determines his position along the road.
+
+// INPUT FORMAT:
+// The first line of input contains 𝑁, and the second line contains a string of 𝑁 characters, each in the range 𝐴,…,𝑍.
+
+// OUTPUT FORMAT:
+// Print a line containing a single integer, specifying the smallest value of 𝐾 that solves Farmer John's problem.
+
+// SAMPLE INPUT:
+// Copy
+// 7
+// ABCDABC
+// SAMPLE OUTPUT:
+// Copy
+// 4
+#include <iostream>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    int s = 0;
+    int test = 0;
+    for (int k = 1; k <= n; k++)
+    {
+        bool repeated = false;
+        for (int x = 0; x < n - k + 1; x++)
+        {
+            if (line.find(line.substr(x, k), x + 1) == -1)
+            {
+                s++;
+            }
+            else
+            {
+                repeated = true;
+                break;
+            }
+        }
+        if (!repeated) 
+        {
+            cout << k << endl;
+            break;
+        }
+    }
+}
+
+// Canadian Computing Competition: 2014 Stage 1, Senior #3
+// In order to ensure peace and prosperity for future generations, the United Nations is creating the world's largest candy. The ingredients must be taken in railway cars from the top of a mountain and poured into Lake Geneva. The railway system goes steeply from the mountaintop down to the lake, with a T-shaped branch in the middle as shown below.
+
+
+// Right now, each of the 𝑁 ingredients is in its own railway car. Each railway car is assigned a positive integer from 1 to 𝑁. The ingredients must be poured into the lake in the order 1,2,3,…,𝑁 but the railway cars are lined up in some random order. The difficulty is that, because of the especially heavy gravity today, you can only move cars downhill to the lake, or sideways on the branch line. Is it still possible to pour the ingredients into the lake in the order 1,2,3,…,𝑁 ?
+
+// For example, if the cars were in the order 2, 3, 1, 4, we can slide these into the lake in order as described below:
+
+
+// Slide car 4 out to the branch
+// Slide car 1 into the lake
+// Slide car 3 out to the branch
+// Slide car 2 into the lake
+// Slide car 3 from the branch into the lake
+// Slide car 4 from the branch into the lake
+// Input Specification
+// The first line will contain the number 𝑇 (1≤𝑇≤10) which is the number of different tests that will be run. Each test has the form of an integer 𝑁 (1≤𝑁≤100000) on the first line of the test, followed by a list of the 𝑁 cars listed from top to bottom. The cars will always use the numbers from 1 to 𝑁 in some order.
+
+// Output Specification
+// For each test, output one line which will contain either Y (for "yum") if the recipe can be completed, and N otherwise.
+
+// Sample Input
+// Copy
+// 2
+// 4
+// 2
+// 3
+// 1
+// 4
+// 4
+// 4
+// 1
+// 3
+// 2
+// Output for Sample Input
+// Copy
+// Y
+// N
+#include <iostream>
+#include <algorithm>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    for (int x = 0; x < n; x++)
+    {
+        int k;
+        cin >> k;
+        stack <int> s1;
+        stack <int> s2;
+        for (int a = 0; a < k; a++)
+        {
+            int b;
+            cin >> b;
+            s1.push(b);
+        }
+        int current = 1;
+        while (!s1.empty())
+        {
+            if (s2.size() >= 1 && s2.top() == current)
+            {
+                current++;
+                s2.pop();
+            }
+            else if (s1.top() == current)
+            {
+                current++;
+                s1.pop();
+            }
+            else
+            {
+                s2.push(s1.top());
+                s1.pop();
+            }
+        }
+        while(!s2.empty())
+        {
+            if (s2.top() == current)
+            {
+                current++;
+                s2.pop();
+            }
+            else
+            {
+                cout << "N" << endl;
+                break;
+            }
+        }
+        if (s2.empty())
+        {
+            cout << "Y" << endl;
+        }
+    }
+}
+
+
 // Canadian Computing Competition: 2004 Stage 1, Junior #3
 // A simile is a combination of an adjective and noun that produces a phrase such as "Easy as pie" or "Cold as ice".
 
