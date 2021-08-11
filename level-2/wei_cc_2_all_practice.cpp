@@ -1,3 +1,546 @@
+// Given two integers 𝐴 and 𝐵, 𝐴 modulo 𝐵 is the remainder when dividing 𝐴 by 𝐵. For example, the numbers 7, 14, 27 and 38 become 1, 2, 0 and 2, modulo 3. Write a program that accepts 10 numbers as input and outputs the number of distinct numbers in the input, if the numbers are considered modulo 42.
+
+// Input Specification
+// The input will contain 10 non-negative integers, each smaller than 1000, one per line.
+
+// Output Specification
+// Output the number of distinct values when considered modulo 42 on a single line.
+
+// Sample Input 1
+// Copy
+// 1
+// 2
+// 3
+// 4
+// 5
+// 6
+// 7
+// 8
+// 9
+// 10
+// Sample Output 1
+// Copy
+// 10
+// Explanation for Sample Output 1
+// The numbers modulo 42 are 1, 2, 3, 4, 5, 6, 7, 8, 9 and 10.
+#include <iostream>
+#include <unordered_set>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    unordered_set <int> set1;
+    for (int x = 0; x < 10; x++)
+    {
+        int n;
+        cin >> n;
+        set1.insert(n % 42);
+    }
+    cout << set1.size();
+}
+
+
+// Canadian Computing Competition: 2013 Stage 1, Junior #4
+// You have been asked by a parental unit to do your chores.
+
+// Each chore takes a certain amount of time, but you may not have enough time to do all of your chores, since you can only complete one chore at a time. You can do the chores in any order that you wish.
+
+// What is the largest amount of chores you can complete in the given amount of time?
+
+// Input Specification
+// The first line of input consists of an integer 𝑇 (0≤𝑇≤100000), which is the total number of minutes you have available to complete your chores.
+
+// The second line of input consists of an integer 𝐶 (0≤𝐶≤100), which is the total number of chores that you may choose from. The next 𝐶 lines contain the (positive integer) number of minutes required to do each of these chores. You can assume that each chore will take at most 100000 minutes.
+
+// Output Specification
+// The output will be the maximum number of chores that can be completed in time 𝑇.
+
+// Sample Input 1
+// Copy
+// 6
+// 3
+// 3
+// 6
+// 3
+// Output for Sample Input 1
+// Copy
+// 2
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int mins;
+    cin >> mins;
+    int c;
+    cin >> c;
+    vector <int> vec1;
+    for (int x = 0; x < c; x++)
+    {
+        int a;
+        cin >> a;
+        vec1.emplace_back(a);
+    }
+    sort(vec1.begin(), vec1.end());
+    int ind = 0;
+    while (mins >= vec1[ind])
+    {
+        mins -= vec1[ind];
+        ind++;
+    }
+    cout << ind;
+}
+
+
+// KeenKen the monkey is going shopping! KeenKen currently has 𝐴 units of sugar, but he needs 𝐵 units of sugar. He has 𝐶 units of toothpaste, but he needs 𝐷 units of toothpaste.
+
+// If he doesn't have enough sugar, he will have to go to the grocery store to get some. If he doesn't have enough toothpaste, he will have to go to the pharmacy. However, if he needs both, he can get them both at the department store, but that is farther away. Thus, he will only visit the department store if he needs to get both items.
+
+// If he doesn't need to get either item, KeenKen will stay home.
+
+// Please tell KeenKen what to do!
+
+// Constraints
+// 0≤𝐴,𝐵,𝐶,𝐷≤100
+
+// Input Specification
+// The first and only line will contain four space-separated integers, 𝐴,𝐵,𝐶,𝐷.
+
+// Output Specification
+// Output one line with the command KeenKen should complete. The output should correspond with one of the following:
+
+// Go to the grocery store
+// Go to the pharmacy
+// Go to the department store
+// Stay home
+// Sample Input 1
+// Copy
+// 1 2 3 4
+// Sample Output 1
+// Copy
+// Go to the department store
+// Explanation for Sample 1
+// KeenKen has 1 unit of sugar which is less than the 2 units required. He has 3 units of toothpaste which is less than the 4 units required. Since he needs more of both items, he should visit the department store.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (a < b && c < d) cout << "Go to the department store" << endl;
+    else if (a < b) cout << "Go to the grocery store" << endl;
+    else if (c < d) cout << "Go to the pharmacy" << endl;
+    else cout << "Stay home" << endl;
+}
+
+// Daniel the monkey was hanging off his favourite branch while watching his favourite anime, when all of a sudden, a potato fell from the sky! Upon examining the potato, he notices 𝐷 distinct digits carved on it.
+
+// Daniel wants you to use some non-empty combination of digits from the potato to form a positive integer of length 𝐾, with no leading zeros. He also tells you that you can use the same digit more than once. Additionally, Daniel doesn't remember if he should read numbers from left to right or right to left, so he tells you to make him an integer that reads the same either way!
+
+// In addition, Daniel doesn't like processing large integers, so he'll only accept the smallest possible answer. If it is impossible to satisfy this task, you'll have to tell him, and he will become a very sad monkey.
+
+// Constraints
+// 1≤𝐾≤2×103
+
+// 1≤𝐷≤10
+
+// 0≤𝑑𝑖≤9
+
+// All 𝑑𝑖 are distinct.
+
+// Subtask 1 [20%]
+// 1≤𝑑𝑖≤9
+
+// Subtask 2 [80%]
+// No additional constraints.
+
+// Input Specification
+// The first line of input will contain 𝐾 and 𝐷 separated by a single space.
+
+// The next line will contain 𝐷 space-separated integers, denoting the digits that you can use to construct the integer.
+
+// Output Specification
+// Output the minimum positive integer of length 𝐾 using some non-empty combination of the 𝐷 digits, or -1 if there is no valid answer.
+
+// Sample Input 1
+// Copy
+// 5 6
+// 3 1 2 5 4 9
+// Sample Output 1
+// Copy
+// 11111
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int k, d;
+    cin >> k >> d;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    vector <int> vec1 = split(line);
+    sort(vec1.begin(), vec1.end());
+    if (vec1.back() == 0)
+    {
+        cout << -1 << endl;
+    }
+    else
+    {
+        int ind = 0;
+        if (vec1[ind] == 0)
+        {
+            while (vec1[ind] < 1) ind++;
+            if (k == 1) cout << vec1[ind] << endl;
+            else
+            {
+                cout << vec1[ind];
+                for (int a = 0; a < k - 2; a++) cout << 0;
+                cout << vec1[ind] << endl;
+            }
+        }
+        else
+        {
+            for (int a = 0; a < k; a++) cout << vec1[ind];
+            cout << endl;
+        }
+    }
+}
+
+// Farmer John's cows have been holding a daily online gathering on the "mooZ" video meeting platform. For fun, they have invented a simple number game to play during the meeting to keep themselves entertained.
+
+// Elsie has three positive integers 𝐴, 𝐵, and 𝐶 (𝐴≤𝐵≤𝐶). These integers are supposed to be secret, so she will not directly reveal them to her sister Bessie. Instead, she gives Bessie seven (not necessarily distinct) integers in the range 1…109, claiming that they are 𝐴, 𝐵, 𝐶, 𝐴+𝐵, 𝐵+𝐶, 𝐶+𝐴, and 𝐴+𝐵+𝐶 in some order.
+
+// Given a list of these seven numbers, please help Bessie determine 𝐴, 𝐵, and 𝐶. It can be shown that the answer is unique.
+
+// INPUT FORMAT:
+// The only line of input consists of seven space-separated integers.
+
+// OUTPUT FORMAT:
+// Print 𝐴, 𝐵, and 𝐶 separated by spaces.
+
+// SAMPLE INPUT:
+// Copy
+// 2 2 11 4 9 7 9
+// SAMPLE OUTPUT:
+// Copy
+// 2 2 7
+#include <vector>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    string line;
+    getline(cin, line);
+    vector <int> vec1 = split(line);
+    sort(vec1.begin(), vec1.end());
+    cout << vec1[0] << " " << vec1[1] << " ";
+    if (vec1[2] == vec1[0] + vec1[1]) cout << vec1[3] << endl;
+    else cout << vec1[2] << endl;
+}
+
+// Every day, as part of her walk around the farm, Bessie the cow visits her favorite pasture, which has 𝑁 flowers (all colorful daisies) labeled 1…𝑁 lined up in a row (1≤𝑁≤100). Flower 𝑖 has 𝑝𝑖 petals (1≤𝑝𝑖≤1000).
+
+// As a budding photographer, Bessie decides to take several photos of these flowers. In particular, for every pair of flowers (𝑖,𝑗) satisfying 1≤𝑖≤𝑗≤𝑁, Bessie takes a photo of all flowers from flower 𝑖 to flower 𝑗 (including 𝑖 and 𝑗).
+
+// Bessie later looks at these photos and notices that some of these photos have an "average flower" -- a flower that has 𝑃 petals, where 𝑃 is the exact average number of petals among all flowers in the photo.
+
+// How many of Bessie's photos have an average flower?
+
+// INPUT FORMAT:
+// The first line of input contains 𝑁. The second line contains 𝑁 space-separated integers 𝑝1…𝑝𝑁.
+
+// OUTPUT FORMAT:
+// Please print out the number of photos that have an average flower.
+
+// SAMPLE INPUT:
+// Copy
+// 4
+// 1 1 2 3
+// SAMPLE OUTPUT:
+// Copy
+// 6
+// EXPLANATION
+// Every picture containing just a single flower contributes to the count (there are four of these in the example). Also, the (𝑖,𝑗) ranges (1,2) and (2,4) in this example correspond to pictures that have an average flower.
+#include <iostream>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    cin.ignore();
+    string line;
+    getline(cin, line);
+    vector <int> vec1 = split(line);
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i; j < n; j++)
+        {
+            int s = 0;
+            for (int k = i; k <= j; k++) s += vec1[k];
+            for (int a = i; a <= j; a++)
+            {
+                if (vec1[a] * (j - i + 1) == s) 
+                {
+                    count++;
+                    break;
+                }
+            }
+        }
+    }
+    cout << count << endl;
+}
+
+// DWITE Online Computer Programming Contest, November 2007, Problem 4
+// Parenthesis are important characters in programming – they define order of operations and organize information. That is, as long as they are properly balanced. Parenthesis are balanced when opening and closing brackets are match with one another, and are themselves nested within balanced parenthesis.
+
+// This is perhaps best illustrated in examples.
+
+// () - balanced: opening is matched with a closing
+// (() - not balanced: one of the opening brackets has no match
+// ([)] - not balanced: the contents inside of ( ) are not balanced
+// The input will contain 5 lines, each no more than 255 characters long. Valid characters are any of the three parenthesis types: (), [], {}, and any alphanumeric characters: a-z 0-9.
+
+// The output will contain 5 lines, each stating either balanced or not balanced, for the supplied expressions.
+
+// All of the characters but the parenthesis could effectively be ignored. Keep in mind the different types of parenthesis – an opening bracket needs to be matched with a closing bracket of the same type.
+
+// Sample Input
+// Copy
+// abc
+// ([{a}b]c)
+// )(
+// ([)]
+// {abc]
+// Sample Output
+// Copy
+// balanced
+// balanced
+// not balanced
+// not balanced
+// not balanced
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    stack <char> s1;
+    int balanced;
+    for (int x = 0; x < 5; x++)
+    {
+        balanced = 1;
+        s1 = {};
+        string line;
+        getline(cin, line);
+        for (auto a : line)
+        {
+            if (s1.empty())
+            {
+                if (a == ')')
+                {
+                    s1.push(0);
+                    break;
+                }
+                if (a == '}')
+                {
+                    s1.push(0);
+                    break;
+                }
+                if (a == ']')
+                {
+                    s1.push(0);
+                    break;
+                }
+            }
+            if (a == '(' || a == '{' || a == '[') s1.push(a);
+            if (a == ')')
+            {
+                if (s1.top() == '(') s1.pop();
+                else
+                {
+                    balanced = 0;
+                    break;
+                }
+            }
+            if (a == '}')
+            {
+                if (s1.top() == '{') s1.pop();
+                else
+                {
+                    balanced = 0;
+                    break;
+                }
+            }
+            if (a == ']')
+            {
+                if (s1.top() == '[') s1.pop();
+                else
+                {
+                    balanced = 0;
+                    break;
+                }
+            }
+        }
+        if (s1.empty()) cout << "balanced" << endl;
+        else cout << "not balanced" << endl;
+    }
+}
+
+// Canadian Computing Competition: 2010 Stage 1, Junior #4
+// Your task is to help scientists predict the trend of the global warming. One of the hypotheses they are considering is that over long periods of time, the average temperature follows certain cycles, but each time the cycle starts from a higher temperature level. The temperatures are measured over five-year averages, and expressed in tenths of a degree.
+
+// For example, if the following five-year averages are observed:
+
+// 3,4,6,4,5,7,5
+
+// then we can calculate that the temperature changes first 1 up, then 2 up, then 2 down, 1 up, 2 up, and 2 down. There is a cycle of changes of length three which covers all of the temperature differences: (+1,+2,−2). In other words, if we look at the differences starting at the first position, there is a cycle of length three of the form (+1,+2,−2) followed by another cycle of length three of exactly the same form. By way of another example, suppose the following average temperatures are observed:
+
+// 3,4,6,7.
+
+// In this case, there is a difference of one up, two up, then one up. We would consider the shortest cycle to be length two in this case: the cycle (+1,+2). Notice that this cycle occurs once, followed by one truncated occurrence of exactly the same cycle.
+
+// Your task is to find the shortest such cycle from a given sequence of temperatures.
+
+// Input Specification
+// The input consists of a number of test cases. Each test case starts with the number 𝑛 (1≤𝑛≤20), representing the number of temperatures in a sequence, followed by the sequence of 𝑛 temperatures. You may assume that each temperature input is an integer in the range −1000…1000 inclusive. The numbers are separated by a single space. The last test case is indicated by a zero and should produce no output.
+
+// Output Specification
+// For each test case, produce the length of the shortest temperature cycle. The cycle always exists, since the whole sequence could be treated as one long cycle.
+
+// Sample Input
+// Copy
+// 7 3 4 6 4 5 7 5
+// 3 1 3 5
+// 3 1 4 5
+// 4 3 4 6 7
+// 0
+// Sample Output
+// Copy
+// 3
+// 1
+// 2
+// 2
+
+#include <iostream>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    string line;
+    getline(cin, line);
+    vector <int> vec1;
+    vector <int> vec2;
+    int ind;
+    int count;
+    while (line != "0")
+    {
+        vec2 = {};
+        vec1 = split(line);
+        vec1.assign(vec1.begin() + 1, vec1.end());
+        for (int a = 1; a < vec1.size(); a++)
+        {
+            vec2.emplace_back(vec1[a] - vec1[a - 1]);
+        }
+        count = 0;
+        for (int b = 0; b < vec2.size(); b++)
+        {
+            if (b != 0 && vec2[b] == vec2[0])
+            {
+                vector<int> v1;
+                vector<int> v2;
+                v1.assign(vec2.begin() + b, vec2.end());
+                v2.assign(vec2.begin(), vec2.begin() + v1.size());
+                if (v1 == v2) break;
+            }
+            count++;
+        }
+        cout << count << endl;
+        getline(cin, line);
+    }
+}
+
+
+
+
 // For Valentine's day, AQT wants to give a letter to his valentine. He currently has a string 𝑆 of 5 lowercase letters and wants to give one to his valentine that isn't present in the string. Help him find one!
 
 // Constraints
