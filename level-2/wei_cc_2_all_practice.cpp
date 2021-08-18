@@ -1,3 +1,610 @@
+// One bright morning, d's English teacher needed help marking some essays. Naturally, d went out of his way to help him. When d gets the papers, he notices that the essays are riddled with improper capitalization everywhere.
+
+// Wanting to help his classmates (but not having enough time to properly fix their errors), d decides to convert the entire essay into either lowercase or uppercase text. He wants to do the least work possible, so he will convert an essay to lowercase if it already has more lowercase characters than uppercase, and vice-versa. If a tie occurs, he will leave the essay as it is.
+
+// Having a lot of essays to fix, d asks you to write a program to help him!
+
+// Input Specification
+// The input will consist of one line, containing one essay. The essay will have spaces and alphanumeric characters only. It is guaranteed that there are no more than 1024 characters in the essay. The essay may contain leading whitespace.
+
+// Output Specification
+// Output the modified essay, according to the rules above.
+
+// Sample Input
+// Copy
+// mITOCHONDRIA iS tHE pOWERHOUSE oF tHE cELL
+// Sample Output
+// Copy
+// MITOCHONDRIA IS THE POWERHOUSE OF THE CELL
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    string line;
+    getline(cin, line);
+    int c1 = 0;
+    int c2 = 0;
+    for (auto a : line)
+    {
+        if (islower(a)) c1++;
+        if (isupper(a)) c2++;
+    }
+    if (c1 > c2)
+    {
+        for (auto &b : line)
+        {
+            b = tolower(b);
+        }
+    }
+    if (c1 < c2)
+    {
+        for (auto &b : line)
+        {
+            b = toupper(b);
+        }
+    }
+    cout << line << endl;
+}
+
+
+// You were the Chosen One! You were supposed to destroy the Sith, not join them. You were supposed to bring balance to the Force, not leave it in darkness.
+
+// The Force, represented by the characters ( and ) is now unbalanced! The Force is balanced if it is one of the following:
+
+// ()
+// AB, where 𝐴 and 𝐵 are balanced
+// (A), where 𝐴 is balanced
+// Kenobi can invert (i.e. turn a ( character to ), or vice versa) at most 1 character in the Force. Given the sequence which represents the Force, print YES if Kenobi can balance it, and NO otherwise.
+
+// Input Specification
+// The input will contain a single string, 𝑆, the sequence which represents the Force.
+
+// Output Specification
+// YES if it can be balanced, and NO otherwise.
+
+// Constraints
+// For all subtasks:
+
+// 𝑆 will have an even number of characters.
+
+// Subtask 1 [20%]
+// 2≤|𝑆|≤1000
+
+// Subtask 2 [80%]
+// 2≤|𝑆|≤105
+
+// Sample Input
+// Copy
+// ()()((()
+// Sample Output
+// Copy
+// YES
+#include <iostream>
+#include <stack>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0); cin.tie (0);
+    string line;
+    getline(cin, line);
+    stack <char> s1;
+    s1.push(line[0]);
+    for (int a = 1; a < line.length(); a++)
+    {
+        if (!s1.empty() && line[a] == ')' && s1.top() == '(') s1.pop();
+        else s1.push(line[a]);
+    }
+    if (s1.size() == 0 || s1.size() == 2) cout << "YES" << endl;
+    else cout << "NO" << endl;
+}
+
+
+// School's back! You're up to no good again already… While your art teacher, Roger, was looking away, you grab his basket of Crayola™ markers and started connecting them together.
+
+// This creates a colorful sword that you can use to hit people that you find annoying with. You want to be able to reach quite far with your sword though, so you keep on connecting.
+
+// Although you want your crayon lightsaber to be as long as possible, you also care deeply about it being aesthetically pleasing. For that reason, you choose to never connect two crayons of the same color directly together.
+
+// Given the colors of the markers in the basket, what is the longest Crayola™ marker sword you can construct?
+
+// Input Specification
+// The first line will contain an integer (1≤𝑁≤10000). This will then be followed by a line of 𝑁 strings that represent the colors of the markers. The colors can be: red, orange, yellow, green, blue, black.
+
+// Output Specification
+// The only output is an integer representing the maximum length possible for the marker sword.
+
+// Sample Input 1
+// Copy
+// 4
+// red blue green black
+// Sample Output 1
+// Copy
+// 4
+// Sample Input 2
+// Copy
+// 5
+// yellow orange yellow yellow yellow
+// Sample Output 2
+// Copy
+// 3
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+	int n;
+	cin >> n;
+	vector <int> colours = {0, 0, 0, 0, 0, 0};
+	string c;
+	for(int x = 0; x < n; x++){
+		cin >> c;
+		if(c == "red") colours[0]++;
+		if(c == "orange") colours[1]++;
+		if(c == "yellow") colours[2]++;
+		if(c == "green") colours[3]++;
+		if(c == "blue") colours[4]++;
+		if(c == "black") colours[5]++;
+	}
+	sort(colours.begin(), colours.end());
+	int a = colours[5];
+	int b = n - a;
+	if (a < b + 1) cout << a + b << endl;
+	else cout << 2 * b + 1 << endl;
+}
+
+// Bessie the cow is working on an essay for her writing class. Since her handwriting is quite bad, she decides to type the essay using a word processor.
+
+// The essay contains 𝑁 words (1≤𝑁≤100), separated by spaces. Each word is between 1 and 15 characters long, inclusive, and consists only of uppercase or lowercase letters. According to the instructions for the assignment, the essay has to be formatted in a very specific way: each line should contain no more than 𝐾 (1≤𝐾≤80) characters, not counting spaces. Fortunately, Bessie's word processor can handle this requirement, using the following strategy:
+
+// If Bessie types a word, and that word can fit on the current line, put it on that line.
+
+// Otherwise, put the word on the next line and continue adding to that line.
+
+// Of course, consecutive words on the same line should still be separated by a single space. There should be no space at the end of any line.
+
+// Unfortunately, Bessie's word processor just broke. Please help her format her essay properly!
+
+// INPUT FORMAT:
+// The first line of input contains two space-separated integers 𝑁 and 𝐾.
+
+// The next line contains 𝑁 words separated by single spaces. No word will ever be larger than 𝐾 characters, the maximum number of characters on a line.
+
+// OUTPUT FORMAT:
+// Bessie's essay formatted correctly.
+
+// SAMPLE INPUT:
+// Copy
+// 10 7
+// hello my name is Bessie and this is my essay
+// SAMPLE OUTPUT:
+// Copy
+// hello my
+// name is
+// Bessie
+// and this
+// is my
+// essay
+// Explanation
+// Including "hello" and "my", the first line contains 7 non-space characters. Adding "name" would cause the first line to contain 11>7 non-space characters, so it is placed on a new line.
+#include <iostream>
+#include <vector>
+#include <sstream>
+using namespace std;
+
+vector < string > split (string str1)
+{
+  vector < string >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (word);
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n, k;
+    cin >> n >> k; cin.ignore();
+    string line;
+    getline(cin, line);
+    vector <string> words = split(line);
+    int length = 0;
+    for (int a = 0; a < words.size(); a++)
+    {
+        string word = words[a];
+        if (a == 0)
+        {
+            cout << word;
+            length = word.length();
+        }
+        else
+        {
+            if (length + word.length() > k)
+            {
+                cout << endl << word; length = word.length();
+            }
+            else
+            {
+                cout << " " << word;
+                length += word.length();
+            }
+        }
+    }
+    cout << endl;
+}
+
+
+// Farmer John is lining up his 𝑁 cows (2≤𝑁≤103), numbered 1…𝑁, for a photoshoot. FJ initially planned for the 𝑖-th cow from the left to be the cow numbered 𝑎𝑖, and wrote down the permutation 𝑎1,𝑎2,…,𝑎𝑁 on a sheet of paper. Unfortunately, that paper was recently stolen by Farmer Nhoj!
+
+// Luckily, it might still possible for FJ to recover the permutation that he originally wrote down. Before the sheet was stolen, Bessie recorded the sequence 𝑏1,𝑏2,…,𝑏𝑁−1 that satisfies 𝑏𝑖=𝑎𝑖+𝑎𝑖+1 for each 1≤𝑖<𝑁.
+
+// Based on Bessie's information, help FJ restore the "lexicographically minimum" permutation 𝑎 that could have produced 𝑏. A permutation 𝑥 is lexicographically smaller than a permutation 𝑦 if for some 𝑗, 𝑥𝑖=𝑦𝑖 for all 𝑖<𝑗 and 𝑥𝑗<𝑦𝑗 (in other words, the two permutations are identical up to a certain point, at which 𝑥 is smaller than 𝑦). It is guaranteed that at least one such 𝑎 exists.
+
+// INPUT FORMAT:
+// The first line of input contains a single integer 𝑁.
+
+// The second line contains 𝑁−1 space-separated integers 𝑏1,𝑏2,…,𝑏𝑁−1.
+
+// OUTPUT FORMAT:
+// A single line with 𝑁 space-separated integers 𝑎1,𝑎2,…,𝑎𝑁.
+
+// SAMPLE INPUT:
+// Copy
+// 5
+// 4 6 7 6
+// SAMPLE OUTPUT:
+// Copy
+// 3 1 5 2 4
+// Explanation
+// 𝑎 produces 𝑏 because 3+1=4, 1+5=6, 5+2=7, and 2+4=6.
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <algorithm>
+using namespace std;
+
+template < typename T > void
+print (T t)
+{
+ for (const auto & e:t) cout << e << " ";
+  cout << endl;
+}
+
+vector < int > split (string str1)
+{
+  vector < int >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (stoi(word));
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0); cin.tie (0);
+    int n;
+    cin >> n; cin.ignore();
+    string line;
+    getline(cin, line);
+    vector <int> vec1 = split(line);
+    vector <int> vec2;
+    int current_cow;
+    for (int x = 1; x < vec1[0]; x++)
+    {
+        vec2 = {};
+        current_cow = x;
+        for (int i = 0; i < n; i++)
+        {
+            if (i == 0)
+            {
+                vec2.emplace_back(current_cow);
+                continue;
+            }
+            current_cow = vec1[i - 1] - current_cow;
+            if (current_cow <= 0) break;
+            if (find(vec2.begin(), vec2.end(), current_cow) != vec2.end()) break;
+            vec2.emplace_back(current_cow);
+            if (i == n - 1)
+            {
+                print(vec2);
+                return 0;
+            }
+        }
+    }
+}
+
+
+
+// We are familiar with infix notation for representing expressions, where the operator is placed infix between the operands, as in 5 * 5. Given an expression in postfix notation, such as 5 5 *, evaluate the expression and print it to standard output, rounded to one decimal place.
+
+// Valid operands are * (multiplication), / (division), + (addition), - (subtraction), % (mod), and ^ (exponentiation).
+
+// Input Format
+// A valid postfix expression. The input will have no more than 50 characters, and the value of each number in the input and each intermediate result will be less than or equal to 1000.
+
+// Output Format
+// The result of the evaluation. The answer will be considered correct if its absolute or relative error does not exceed 10−1.
+
+// Sample Input 1
+// Copy
+// 5 5 +
+// Sample Output 1
+// Copy
+// 10.0
+// Sample Input 2
+// Copy
+// 5 5 + 6 * 8 -
+// Sample Output 2
+// Copy
+// 52.0
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <iomanip>
+#include <stack>
+#include <cmath>
+using namespace std;
+
+vector < string > split (string str1)
+{
+  vector < string >vv;
+  string word;
+  istringstream ss (str1);
+  while (getline (ss, word, ' '))
+    {
+      vv.push_back (word);
+    }
+  return vv;
+}
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    string line;
+    getline(cin, line);
+    vector <string> vec1 = split(line);
+    stack <double> s1;
+    double tmp1;
+    double tmp2;
+    for (auto a : vec1)
+    {
+        if (a == "+")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            s1.push(tmp2 + tmp1);
+        }
+        else if (a == "-")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            s1.push(tmp2 - tmp1);
+        }
+        else if (a == "*")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            s1.push(tmp2 * tmp1);
+        }
+        else if (a == "/")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            s1.push((tmp2 / 1.0) / tmp1);
+        }
+        else if (a == "%")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            double current = 0.0;
+            while (current + tmp1 <= tmp2)
+            {
+                current += tmp1;
+            }
+            current = tmp2 - current;
+            s1.push(current);
+        }
+        else if (a == "^")
+        {
+            tmp1 = s1.top();
+            s1.pop();
+            tmp2 = s1.top();
+            s1.pop();
+            s1.push(pow(tmp2, tmp1));
+        }
+        else
+        {
+            s1.push(stoi(a));
+        }
+    }
+    double ans = (s1.top() / 1.0);
+    cout << fixed << setprecision(1) << ans << endl;
+}
+
+// The CS Nerd is dreaming about giving Christmas presents to the girl. Unfortunately, he does not have enough courage to do this in real life.
+
+// In the dream, there are 𝑁 presents that he could possibly give to the girl. The 𝑖𝑡ℎ present has a weight of 𝑤𝑖. The CS Nerd wants to impress the girl by building a large stack of presents – that is, presents stacked one on top of each other – and giving it to her.
+
+// However, the CS Nerd needs to ensure that the sum of the weights of the presents above any present does not exceed that present's weight. What is the maximum number of presents that can be in the stack?
+
+// Input Specification
+// The first line of input will contain a single integer 𝑁 (1≤𝑁≤100000).
+
+// 𝑁 lines of input follow. The 𝑖𝑡ℎ line will consist of a single integer, 𝑤𝑖 (1≤𝑤𝑖≤109).
+
+// For 20% of the points, 𝑁≤10.
+
+// For an additional 30% of the points, 𝑁≤1000.
+
+// Output Specification
+// Output a single integer, the maximum possible number of presents that can be in the stack.
+
+// Sample Input
+// Copy
+// 5
+// 7
+// 8
+// 2
+// 5
+// 10
+// Sample Output
+// Copy
+// 3
+// Explanation for Sample Output
+// The CS Nerd can stack presents in the order 2, 4, and 3 from the bottom. The weights of these presents are 8, 5, and 2, respectively. Note that this is not the only possible solution.
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0); cin.tie (0);
+    int n;
+    cin >> n;
+    vector <int> presents;
+    for (int x = 0; x < n; x++)
+    {
+        int present;
+        cin >> present;
+        presents.emplace_back(present);
+    }
+    sort(presents.begin(), presents.end());
+    int tmp = presents[0];
+    int count = 1;
+    for (int i = 1; i < n; i++)
+    {
+        if (presents[i] >= tmp)
+        {
+            tmp += presents[i];
+            count++;
+        }
+    }
+	cout << count << endl;
+}
+
+
+// There are 𝑁 chairs in a circle. Exactly 𝐾 of these chairs are empty and there are 𝐾+1 students numbered from 1 to 𝐾+1 standing at some of these chairs. Every second, each student moves forward by one chair. In particular, if they are currently standing by chair 𝑁, then they will move to chair 1 after. If a student reaches an empty chair, including at the very beginning, they will sit down for the remaining time. Who will be the last standing student?
+
+// It is guaranteed that every student begins by a different chair.
+
+// Edit: The test data has been fixed.
+
+// Constraints
+// For all subtasks:
+
+// All the indices in the input will be between 1 and 𝑁 inclusive.
+
+// Subtask 1 [30%]
+// 1≤𝐾<𝑁≤5000
+
+// Subtask 2 [50%]
+// 1≤𝐾<𝑁≤200000
+
+// Subtask 3 [20%]
+// 1≤𝐾<𝑁≤1000000
+
+// Input Specification
+// The first line will have two space-separated integers, 𝑁 and 𝐾.
+// The next line will have 𝐾 space-separated integers representing the indices of the empty chairs.
+// The third line will have 𝐾+1 space-separated integers. The 𝑖th integer is the chair at which student 𝑖 begins at.
+
+// Output Specification
+// Output a single integer, the index of the last standing student.
+
+// Sample Input
+// Copy
+// 7 2
+// 2 1
+// 6 5 4
+// Sample Output
+// Copy
+// 3
+#include <bits/stdc++.h>
+using namespace std;
+
+
+bool comp(pair <int, int> a, pair <int, int>  b) {
+    if (a.first == b.first) {
+        return a > b;
+    } else {
+        return b > a;
+    }
+}
+
+int main()
+{
+    int n, k;
+    vector <pair <int, int> > vec1;
+    cin >> n >> k;
+    int a;
+    for (int i = 1; i <= k; i++) {
+        cin >> a;
+        vec1.push_back({a, 0});
+    }
+    for (int i = 1; i <= k + 1; i++) {
+        cin >> a;
+        vec1.push_back({a, i});
+    }
+    sort(vec1.begin(), vec1.end(), [](pair <int, int> a, pair <int, int> b)
+    {if (a.first == b.first) {return a.second > b.second;} else {return a < b;}});
+
+    stack <pair <int, int> > s1;
+    for (pair <int, int> b : vec1) {
+        if (!s1.empty())
+        {
+            if (s1.top().second == 0 || b.second != 0) 
+            {
+                s1.push(b);
+            }
+            else 
+            {
+                s1.pop();
+            }
+        }
+        else 
+        {
+            s1.push(b);
+        }
+    }
+    
+    int c = 0;
+    while (!s1.empty() && s1.top().second != 0)
+    {
+        c = s1.top().second;
+        s1.pop();
+    }
+    cout << c << endl;
+}
+
+
+
 // Given two integers 𝐴 and 𝐵, 𝐴 modulo 𝐵 is the remainder when dividing 𝐴 by 𝐵. For example, the numbers 7, 14, 27 and 38 become 1, 2, 0 and 2, modulo 3. Write a program that accepts 10 numbers as input and outputs the number of distinct numbers in the input, if the numbers are considered modulo 42.
 
 // Input Specification
