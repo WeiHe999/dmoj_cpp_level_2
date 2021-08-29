@@ -1,3 +1,625 @@
+// Bob is playing blocks in his room. Bob's room can be modeled as a grid with 𝑁 rows and 𝑀 columns. Rows and columns are numbered from 1. The square at the 𝑖-th row from top and the 𝑗-th column from the left is denoted as the cell (𝑖,𝑗). Initially, Bob stacks 𝑎𝑖,𝑗 blocks at the cell (𝑖,𝑗).
+
+// Now, Bob wants to add new blocks to some cells so that all cells have the same number of blocks. Can you help Bob to calculate the minimum number of new blocks Bob need to add?
+
+// Input Specification
+// The first line of input contains two integers 𝑁 and 𝑀 (1≤𝑁,𝑀≤100), the number of rows and the number of columns.
+
+// Each of the following 𝑁 lines contains 𝑀 integers, 𝑎𝑖,𝑗 (0≤𝑎𝑖,𝑗≤100), the initial number of blocks at the cell (𝑖,𝑗).
+
+// Output Specification
+// Output one integer, the minimal number of blocks Bob needs to add so that all cells have the same number of blocks.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	10	𝑁,𝑀≤10.
+// 2	90	No additional constraints.
+// Sample Input
+// Copy
+// 2 3
+// 3 2 1
+// 2 1 3
+// Sample Output
+// Copy
+// 6
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n, m;
+    cin >> n >> m;
+    vector <int> vec1;
+    int maximum = -1 * INT_MAX;
+    for (int x = 0; x < n; x++)
+    {
+        for (int a = 0; a < m; a++)
+        {
+            int b;
+            cin >> b;
+            vec1.emplace_back(b);
+            if (b > maximum) maximum = b;
+        }
+    }
+    int s = 0;
+    for (auto a : vec1)
+    {
+        s += (maximum - a);
+    }
+    cout << s << endl;
+}
+
+
+// Bob is writing a final quiz consisting of 𝑁 questions. Initially, Bob has 𝑀 points. If Bob answers one question correctly, he will get one point; otherwise, he will lose one point. One exception is that Bob will lose nothing if he only has 0 points.
+
+// Given a string 𝑆 which represents Bob's answers, if the 𝑖-th character is o, it means Bob is correct for the 𝑖-th question; if the character is x, Bob is wrong for the question. Can you write a program to find out the number of points Bob will have in the end?
+
+// Input Specification
+// The first line of input contains two integers 𝑁, 𝑀 (1≤𝑁≤2×105, 0≤𝑀≤2×105), the number of questions and the number of initial points.
+
+// The second line of input contains a string 𝑆, (|𝑆|=𝑁), consisting of o and x.
+
+// Output Specification
+// Output one integer, the final points Bob will have in the end.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	20	𝑁≤20.
+// 2	80	No additional constraints.
+// Sample Input
+// Copy
+// 4 1
+// xxoo
+// Sample Output
+// Copy
+// 2
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n, m;
+    cin >> n >> m; cin.ignore();
+    string line;
+    getline(cin, line);
+    for (auto a : line)
+    {
+        if (a == 'o') m++;
+        if (a == 'x')
+        {
+            if (m != 0) m--;
+        }
+    }
+    cout << m << endl;
+}
+
+
+// Given an integer 𝑥, the digit sum of 𝑥 is the sum of all digits in 𝑥. For example, if 𝑥=213, the digit sum is 2+1+3=6. Given 𝑛 integers, Bob wants to find out the max digit sum among all 𝑛 integers. Can you write a program to help Bob?
+
+// Input Specification
+// The first line of input contains one integer 𝑛 (2≤𝑛≤1000), the number of integers.
+
+// Each of the following 𝑛 lines contains one integer 𝑥 (0≤𝑥≤101000).
+
+// Output Specification
+// Output one integer, the max digit sum among all 𝑛 integers.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	10	𝑥≤2×109
+// 2	20	𝑥≤9×1018
+// 3	70	No additional constraints.
+// Sample Input 1
+// Copy
+// 3
+// 213
+// 91
+// 62
+// Sample Output 1
+// Copy
+// 10
+// Explanation
+// The digit sum of the 3 integers are: 2+1+3=6, 9+1=10, and 6+2=8, where the max digit sum is 10.
+
+// Sample Input 2
+// Copy
+// 2
+// 101
+// 999
+// Sample Output 2
+// Copy
+// 27
+
+#include <iostream>
+#include <climits>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n; cin.ignore();
+    int s;
+    int maximum = -1 * INT_MAX;
+    for (int x = 0; x < n; x++)
+    {
+        string a;
+        getline(cin, a);
+        s = 0;
+        for (auto b : a)
+        {
+            s += b - '0';
+        }
+        if (s > maximum) maximum = s;
+    }
+    cout << maximum << endl;
+}
+
+// Given 𝑁 items, numbered from 1 to 𝑁, the 𝑖-th item has a value of 𝑣𝑖. Bob will put at most 𝐾 items (1≤𝐾≤𝑁) into his knapsack, and he wants to know what is the maximum possible sum of value he can get in the knapsack.
+
+// Bob will ask you 𝑄 queries. For each query, he will give you an integer 𝐾, and you need to tell him the maximum possible sum of value.
+
+// Input Specification
+// The first line of input contains two integers 𝑁 and 𝑄 (1≤𝑁,𝑄≤105), the number of items and the number of questions Bob will ask.
+
+// The second line of input contains 𝑁 integers, 𝑣𝑖 (−109≤𝑣𝑖≤109), the value of the 𝑖-th item.
+
+// Each of the following 𝑄 lines contains one integer 𝐾 (1≤𝐾≤𝑁), the max number of items Bob can put into his knapsack.
+
+// Output Specification
+// For each query, output one integer, the maximum possible sum of value.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	10	𝑁,𝑄≤10
+// 2	20	𝑁,𝑄≤10000.
+// 3	70	No additional constraints.
+// Sample Input
+// Copy
+// 5 3
+// 3 -2 5 4 -7
+// 1
+// 3
+// 5
+// Sample Output
+// Copy
+// 5
+// 12
+// 12
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    long long n, q, a;
+    cin >> n >> q;
+    vector <long long> values;
+    for (long long x = 0; x < n; x++)
+    {
+        cin >> a;
+        if(a > 0) values.emplace_back(a);
+    }
+    sort(values.rbegin(), values.rend());
+    vector <long long> vec1;
+    for(long long i = 0; i < values.size(); i++)
+    {
+        if(i == 0) vec1.push_back(values[i]);
+        else vec1.push_back(vec1[i - 1] + values[i]);
+    }
+    for (long long b = 0; b < q; b++)
+    {
+        cin >> a;
+        if(a >= values.size()) cout << vec1.back() << endl;
+        else cout << vec1[a - 1] << endl;
+    }
+}
+
+
+// Bob is a teacher and he has 𝑁 students, where 𝑁 is an odd number. After marking the final quiz, Bob wants to find out the median student: half of the students get as much or higher marks than the median student; half of them get as much or lower marks. If multiple students get the same mark, Bob will sort these students by their name in lexicographical order. Can you write a program to help Bob find out the median student's name.
+
+// Input Specification
+// The first line of input contains one integer 𝑁 (1≤𝑁≤105), the number of students.
+
+// Each of the following 𝑁 lines contains one string 𝑠𝑖 and one integer 𝑣𝑖 (1≤|𝑠𝑖|≤20, 1≤𝑣𝑖≤106), where 𝑠𝑖 is the 𝑖-th student's name consisting only of lowercase letters and 𝑣𝑖 is the mark the 𝑖-th student gets.
+
+// In 30% cases, 𝑁≤500.
+
+// In another 30% cases, 𝑁≤104.
+
+// Output Specification
+// Output one string, the median student's name.
+
+// Sample Input 1
+// Copy
+// 5
+// alice 2
+// allen 4
+// brian 1
+// susan 3
+// oscar 5
+// Sample Output 1
+// Copy
+// susan
+// Sample Input 2
+// Copy
+// 5
+// alice 1
+// brian 5
+// allen 5
+// susan 6
+// oscar 8
+// Sample Output 2
+// Copy
+// brian
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >> n;
+    vector <pair <int, string> > vec1;
+    string name;
+    int score;
+    for (int x = 0; x < n; x++)
+    {
+        cin >> name >> score;
+        vec1.push_back({score, name});
+    }
+    sort(vec1.begin(), vec1.end());
+    cout << vec1[n / 2].second << endl;
+}
+
+
+Bob is writing a programming contest. There are 𝑛 (1≤𝑛≤5) questions in the contest. The points of the 𝑛 questions are denoted as 𝑎1,𝑎2,…,𝑎𝑛. There is no partial point for each question. Thus, Bob either completely solves a question to get the full point, or gets 0 point. The final score is the sum of points Bob gets in each question. Bob wants to find out the number of distinct possible final scores he can have. Can you write a program to help him?
+
+// Input Specification
+// The first line of input contains one integer 𝑛 (1≤𝑛≤5), the number of questions in the contest.
+
+// The second line of input contains 𝑛 integers, 𝑎𝑖 (1≤𝑎𝑖≤15), the point of the 𝑖-th question.
+
+// Output Specification
+// Output one integer, the number of distinct possible final scores Bob may have.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	10	𝑛<=2.
+// 2	10	𝑛=3.
+// 3	10	𝑛=4.
+// 4	70	No additional constraints.
+// Sample Input 1
+// Copy
+// 2
+// 1 2
+// Sample Output 1
+// Copy
+// 4
+// Explanation
+// The final score can be 0, 1, 2, or 3. Thus, there are 4 distinct possible scores.
+
+// Sample Input 2
+// Copy
+// 3
+// 1 2 3
+// Sample Output 2
+// Copy
+// 7
+// Explanation
+// The final score can be 0,1,2,3,4,5,6. Thus, there are 7 distinct possible scores.
+#include <bits/stdc++.h>
+using namespace std;
+
+void getstrings(int n, vector <int> vec1, int i, vector <int> scores, unordered_set <int> &s1)
+{
+	if (i == n)
+	{
+		int s = 0;
+    	for (int i = 0; i < n; i++)
+    	{
+    	    if (vec1[i] == 0) s += 0;
+    	    else s += scores[i];
+    	}
+    	s1.insert(s);
+	}
+    else
+    {
+        vec1.emplace_back(0);
+    	getstrings(n, vec1, i + 1, scores, s1);
+    	vec1[i] = 1;
+    	getstrings(n, vec1, i + 1, scores, s1);
+    }
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	vector <int> scores;
+	for (int x = 0; x < n; x++)
+	{
+	    int a;
+	    cin >> a;
+	    scores.emplace_back(a);
+	}
+    vector <int> vec1;
+	unordered_set <int> s1; 
+	getstrings(n, vec1, 0, scores, s1);
+	cout << s1.size() << endl;
+}
+
+// Bob is writing a programming contest. There are 𝑛 (1≤𝑛≤1000) questions in the contest. The points of the 𝑛 questions are denoted as 𝑎1,𝑎2,…,𝑎𝑛. There is no partial point for each question. Thus, Bob either completely solves a question to get the full point, or gets 0 point. The final score is the sum of points Bob gets in each question. Bob wants to find out the number of distinct possible final scores he can have. Can you write a program to help him?
+
+// Input Specification
+// The first line of input contains one integer 𝑛 (1≤𝑛≤1000), the number of questions in the contest.
+
+// The second line of input contains 𝑛 integers, 𝑎𝑖 (1≤𝑎𝑖≤15), the point of the 𝑖-th question.
+
+// Output Specification
+// Output one integer, the number of distinct possible final scores Bob may have.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	15	𝑛≤5.
+// 2	15	𝑛≤20.
+// 3	70	No additional constraints.
+// Sample Input 1
+// Copy
+// 2
+// 1 2
+// Sample Output 1
+// Copy
+// 4
+// Explanation
+// The final score can be 0, 1, 2, or 3. Thus, there are 4 distinct possible scores.
+
+// Sample Input 2
+// Copy
+// 3
+// 1 2 3
+// Sample Output 2
+// Copy
+// 7
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+	int n;
+	cin >> n;
+	vector <int> scores;
+	for (int x = 0; x < n; x++)
+	{
+	    int b;
+	    cin >> b;
+	    scores.emplace_back(b);
+	}
+	unordered_set <int>  set1 = {0, scores[0]};
+	for (int a = 2; a <= n; a++)
+	{
+	    unordered_set <int>  set2;
+        for (auto x : set1)
+        {
+            set2.insert(x);
+            set2.insert(x + scores[a - 1]);
+        }
+        set1 = set2;
+	}
+	cout << set1.size() << endl;
+}
+
+
+// Given an array 𝐴 with 𝑁 integers, denoted as 𝑎1,𝑎2,…,𝑎𝑁, Bob calculates the absolute difference |𝑎𝑖−𝑎𝑗| for all pairs of 𝑖 and 𝑗 (1≤𝑖<𝑗≤𝑁), and stores these differences into another array 𝐵. For example, if Bob's array 𝐴 is [3,2,5,1], the array 𝐵 will be [|3−2|,|3−5|,|3−1|,|2−5|,|2−1|,|5−1|], i.e. 𝐵=[1,2,2,3,1,4]. Bob wants to calculate the sum of the array 𝐵. Can you write a program to help Bob?
+
+// Input Specification
+// The first line of input contains one integer 𝑁 (2≤𝑁≤200000), the length of the array 𝐴.
+
+// The second line of input contains 𝑁 integers, 𝑎𝑖, (−109≤𝑎𝑖≤109), the 𝑖-th element in the array 𝐴.
+
+// Output Specification
+// Output one integer, the sum of the array 𝐵.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	20	𝑁≤1000
+// 2	80	No additional constraints.
+// Sample Input 1
+// Copy
+// 4
+// 3 2 5 1
+// Sample Output 1
+// Copy
+// 13
+// Explanation
+// The sample case is explained in the problem. The array 𝐵 is [1,2,2,3,1,4] and the sum is 13.
+
+// Sample Input 2
+// Copy
+// 3
+// 5 1 2
+// Sample Output 2
+// Copy
+// 8
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0); cin.tie (0);
+    long long n;
+    cin >> n;
+    vector <int> vec1;
+    long long s = 0;
+    for (long long x = 0; x < n; x++)
+    {
+        int a;
+        cin >> a;
+        vec1.emplace_back(a);
+    }
+    sort(vec1.rbegin(), vec1.rend());
+    for (long long b = 0; b < n; b++)
+    {
+        s += (vec1[b] * (n - b - 1)) - b * vec1[b];
+    }
+    cout << s << endl;
+}
+
+
+// Given a string 𝑠, Bob defines the string power 𝑠𝑘 as the operation to repeat the string 𝑠 for 𝑘 times. For example, if 𝑠 is ab, then 𝑠3 is ababab.
+
+// Bob has 𝑛 strings. For each string 𝑡, Bob wants to find out the largest 𝑘 such that 𝑡=𝑠𝑘 for some string 𝑠. For example, if 𝑡 is ababab, the largest 𝑘 is 3 and 𝑠 is ab. Can you write a program to help Bob?
+
+// Input Specification
+// The first line of input contains an integer 𝑛, (1≤𝑛≤2500), the number of strings.
+
+// Each of the following 𝑛 lines contains a string 𝑡 (∑|𝑡|≤106). Note, the string 𝑡 may consist of lower case letters, upper case letters and digits.
+
+// Output Specification
+// For each string 𝑡, output the largest 𝑘 such that the string 𝑡 can be made by repeating some string 𝑠 for 𝑘 times.
+
+// Constraints
+// Subtask	Points	Additional constraints
+// 1	20	𝑛≤5.
+// 2	80	No additional constraints.
+// Sample Input
+// Copy
+// 2
+// aaaa
+// ababab
+// Sample Output
+// Copy
+// 4
+// 3
+// Explanation
+// For aaaa, it can be made by repeating a for 4 times
+
+// For ababab, it can be made by repeating ab for 3 times.
+#include <bits/stdc++.h>
+using namespace std;
+
+bool check_pattern(string str2, int k)
+{
+    string first = str2.substr(0, k);
+    for(int j=0; j<str2.size(); j+=k) 
+    {
+        //cout << "extracted="<<str2.substr(j, k) << ", first=" << first << endl;
+        if(str2.substr(j, k)!=first) return false;
+    }
+    return true;
+}
+
+int main() {
+    cin.sync_with_stdio (0);
+    cin.tie (0);
+    int n;
+    cin >>n;
+    for (int i=0; i<n; i++)
+    {
+        string str1;
+        int flag=0;
+        cin >> str1;
+        int len = str1.size();
+        for(int j=1; j<=str1.size()/2; j++)
+        {
+            if(len%j==0) 
+            {
+                if (check_pattern(str1, j))
+                {
+                    cout << len/j << endl;
+                    flag = 1;
+                    break;
+                }
+            }
+        }
+        if(flag==0) cout << 1 << endl;
+    }
+    
+}
+
+
+
+// You are given a spreadsheet with 𝐶 columns. The item in each cell is a string consisting of lower case letters. You are provided with an operation 𝑆𝑜𝑟𝑡(𝑘), where 𝑆𝑜𝑟𝑡(𝑘) sorts the rows of a table in the order of the values in column 𝑘 (while the order of the columns does not change). The sort is stable, that is, rows that have equal values in column 𝑘, remain in their original order.
+
+// C1	C2	C3
+// apple	red	sweet
+// apple	green	sour
+// pear	green	sweet
+// banana	brown	rotten
+// For example, given the above table, if you do 𝑆𝑜𝑟𝑡(2) operation to the table, you will get the following table.
+
+// C1	C2	C3
+// banana	brown	rotten
+// apple	green	sour
+// pear	green	sweet
+// apple	red	sweet
+// If you take a sequence of such sort operatoins, sometimes two sequences of sort opeartions are equivalent, if they have same effect for any table. For example a sequence { 𝑆𝑜𝑟𝑡(2), 𝑆𝑜𝑟𝑡(2), 𝑆𝑜𝑟𝑡(1) } is equivalent to {𝑆𝑜𝑟𝑡(2), 𝑆𝑜𝑟𝑡(1) }. However, it is not equivalent to {𝑆𝑜𝑟𝑡(1),𝑆𝑜𝑟𝑡(2)}, because the effect on the table is different.
+
+// Given a sequence of sort operations, find out the shortest equivalent sequence.
+
+// Input Specification
+// The first line contains two integers, 𝐶 and 𝑁 (1≤𝐶≤106, 1≤𝑁≤3×106), the number of columns and the number of sort operations.
+
+// The second line contains 𝑁 integers, 𝑘𝑖 (1≤𝑘𝑖≤𝐶), a sort operation on column 𝑘𝑖.
+
+// In 15% test cases, 𝐶≤100,𝑁≤100.
+
+// In another 15% test cases, 𝐶≤1000,𝑁≤1000.
+
+// Output Specification
+// The first line contains one integer, 𝑀, the length of the shortest sequence of sort operations equivalent to the input sequence.
+
+// The second line contains exactly 𝑀 integers, representing a shortest sequence.
+
+// Sample Input
+// Copy
+// 4 6
+// 1 2 1 2 3 3
+// Sample Output
+// Copy
+// 3
+// 1 2 3
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    cin.sync_with_stdio (0); cin.tie (0);
+	int c, n;
+	cin >> c >> n;
+	vector <pair <int, int> > vec1;
+	unordered_map <int, int> m1;
+    for (int x = 0; x < n; x++)
+    {
+        int a;
+        cin >> a;
+        m1[a] = x;
+    }
+    for (auto b : m1) vec1.push_back({b.second, b.first});
+    sort(vec1.begin(), vec1.end());
+    cout << vec1.size() << endl;
+    for (auto c : vec1) cout << c.second << " ";
+    cout << endl;
+}
+
+
 // One bright morning, d's English teacher needed help marking some essays. Naturally, d went out of his way to help him. When d gets the papers, he notices that the essays are riddled with improper capitalization everywhere.
 
 // Wanting to help his classmates (but not having enough time to properly fix their errors), d decides to convert the entire essay into either lowercase or uppercase text. He wants to do the least work possible, so he will convert an essay to lowercase if it already has more lowercase characters than uppercase, and vice-versa. If a tie occurs, he will leave the essay as it is.
