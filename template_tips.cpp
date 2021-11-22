@@ -108,6 +108,12 @@ Cout << fixed << setprecision(2) << a << endl; //output 3.27
 int a=2, b=8;
 cout << setw(2) << setfill('0') << a << setw(2) << setfill('0') << b << endl;
 
+//round, ceil, floor (remember to *1.0 to make it float first)
+int a = round(28/10); // a=2 because 28/10=2 
+int b = ceil(22/10); // b=2
+Int a= round(1.0*28/10); // a=3
+Int c = floor(1.0*28/10); //c=2
+
 // string ****
 // loop over a string or vector
 for (long n=0; n<str1.size(); n++) cout << str1[n]
@@ -327,12 +333,14 @@ for (int k=0; k<v2.size(); k++)
 }
 
 //lower_boound and upper_bound
+//lower_bound (3): point to the first iterator that is larger than or equal to 3
+//upper_bound(3): point to the first iterator that is larger than 3
   int myints[] = {10,20,30,30,20,10,10,20};
   std::vector<int> v(myints,myints+8);           // 10 20 30 30 20 10 10 20
   std::sort (v.begin(), v.end());                // 10 10 10 20 20 20 30 30
   std::vector<int>::iterator low, up;
-  low=std::lower_bound (v.begin(), v.end(), 20); //  index=3
-  up= std::upper_bound (v.begin(), v.end(), 20); // index=6
+  low=std::lower_bound (v.begin(), v.end(), 20); //  index=3, the first position >=20
+  up= std::upper_bound (v.begin(), v.end(), 20); // index=6, the first position >20
 
 //count the number of elements in vector that is less or equal to a threshold
 //upper_bound (pos.begin(), pos.end(), threshold) return the iterator pointing to the first element larger than the threshold
@@ -476,7 +484,12 @@ sort(vect1.begin(), vect1.end());
 map: use binary-search tree to store data, it is ordered, search complexity O(log(n))
 unordered_map: use hash function and array to store data, it is unordered, search complexity O(1)
  
-
+// tuple ****
+vector<tuple<string, int, int> > a;
+a = {{"apple”, 12, 13}, {"pear", 12, 2}};
+a[0] = {"cherry", 12, 1};
+sort(a.begin(), a.end(), [](tuple<string, int, int> p1, tuple<string, int, int> p2){if(get<1>(p1)<get<1>(p2)) return true; else return get<2>(p1)<get<2>(p2); });
+for(int i=0; i<a.size(); i++) cout <<get<0>(a[i]) << ", " << get<1>(a[i])<< ", " << get<2>(a[i])<< endl;
 
 // queue ****
  std::queue<int> myqueue;
@@ -557,5 +570,4 @@ memcpy(&tm2, localtime(&timeSinceEpoch_new), sizeof (struct tm));
 std::cout << tm2.tm_year+1900 << "-" << setw(2) << setfill('0') << tm2.tm_mon+1 << "-" << setw(2) << setfill('0') << tm2.tm_mday << " " << setw(2) << setfill('0') << tm2.tm_hour << ":" << setw(2) << setfill('0')<< tm2.tm_min << ":" << setw(2) << setfill('0')<< tm2.tm_sec << endl;   
 
 // class ***
-//https://www.youtube.com/watch?v=lrMaVM3eZOo
-
+https://www.youtube.com/watch?v=lrMaVM3eZOo
