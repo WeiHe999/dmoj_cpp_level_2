@@ -5,6 +5,8 @@ https://techiedelight.com/tools/clike
 https://www.cplusplus.com/reference/queue/queue/pop/
 
 
+Zoom meeting: https://zoom.us/j/92941888492 (Passcode: 6464415960)
+
 // include
 #include <bits/stdc++.h> // everything included
 
@@ -113,6 +115,18 @@ int a = round(28/10); // a=2 because 28/10=2
 int b = ceil(22/10); // b=2
 Int a= round(1.0*28/10); // a=3
 Int c = floor(1.0*28/10); //c=2
+
+//output double, need to set precision
+int a1=123456783;
+int a2=7689254;
+double d = (a1+a2)/2.0;
+cout << d << endl;// 6.5573e+07 which is approximated value, wrong
+cout << fixed << setprecision(6) << d << endl; //65573018.500000, correct answer
+
+// for interactive program, need to flush the output before get input from online judge
+cout << "? " << 2 << " " << 1 << endl << flush;
+cin >> ans;
+
 
 // string ****
 // loop over a string or vector
@@ -261,6 +275,9 @@ vector<int> v1={1, 3, 4, 2};
 sort(v1.begin(), v1.end()); //ascending order
 sort(v1.rbegin(), v1.rend()); //descending order
 
+//std::stable_sort preserves the order of equivalent elements, while std::sort doesn’t, but sort O(N·log(N)) performs faster than stable_sort
+stable_sort(v1.begin(), v1.end()); //ascending order
+
 //sort vector of vectors based on second element
 vector<vector<int>> vec = {{1,4}, {9, 2}};
 //sort in ascending order based on the second element
@@ -394,6 +411,8 @@ float c=INFINITY;
 #include <climits>
 int int_max = INT_MAX;
 int int_min = INT_MIN;
+long long ll_max = LLONG_MAX;
+Long long ll_min = LLONG_MIN;
 
 INT_MAX 2147483647 (10e9)
 LONG_MAX 2147483647 (10e9)
@@ -571,3 +590,26 @@ std::cout << tm2.tm_year+1900 << "-" << setw(2) << setfill('0') << tm2.tm_mon+1 
 
 // class ***
 https://www.youtube.com/watch?v=lrMaVM3eZOo
+
+// left right two pointer strategy, O(2n)
+1. Shift right pointer forward
+2. If condition is satisfied, fix the right pointer, move left pointer
+3. If condition is not satisfied, fixed the left pointer, move the right pointer
+4. Repeat until both pointers reach the end
+
+// prefix sum array
+vector<int> v1 = {1, 3, 4, 2, 5};
+vector<int> psa = {1, 4, 8, 10, 15};
+// use pas to find partial sum
+Int s1_3 = psa[3-1]; # sum from the 1st element to the 3rd element
+Int s2_4 = psa[3]-psa[0]; # sum from from the 2rd element to the 4th element
+
+//difference array is used in partial update (the update is a arithmetic sequence, such as add 2, 4, 6 to 2rd, 3rd and 4th elements)
+Given vector v1={1, 3, 4, 2, 5}, do update (1, 4, 2), update 1st element to 4th element by adding 2, 4, 6…., find the vector after a series of such updates.
+Solution:
+Assume v2={0, 0, 0, 0, 0, 0}, do update (1, 3, 2), we get v3={2, 4, 6, 8, 0, 0}, 
+1. Do 1st order difference on v3, we get d1={2, 2, 2, 2, -8, 0}, 
+2. Do 2rd order difference on d1, we get: d2={2, 0, 0, 0, -10, 8}
+3. Do 1st Prefix Sum on d2: {2, 2, 2, 2, -8, 0}
+4. Do 2rd Prefix Sum, {2, 4, 6, 8, 0, 0}
+Steps 2-4 is program solution for a large size vector.
