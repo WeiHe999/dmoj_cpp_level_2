@@ -597,12 +597,31 @@ https://www.youtube.com/watch?v=lrMaVM3eZOo
 3. If condition is not satisfied, fixed the left pointer, move the right pointer
 4. Repeat until both pointers reach the end
 
-// prefix sum array
+// prefix sum array for partial sum or partial counting
 vector<int> v1 = {1, 3, 4, 2, 5};
 vector<int> psa = {1, 4, 8, 10, 15};
 // use pas to find partial sum
-Int s1_3 = psa[3-1]; # sum from the 1st element to the 3rd element
+Int s1_3 = psa[2]; # sum from the 1st element to the 3rd element
 Int s2_4 = psa[3]-psa[0]; # sum from from the 2rd element to the 4th element
+
+// difference array for partial constant update
+For example, original state = [1, 4, 2, 3], 
+Update 1: from element 1 to 2, add 1, 
+update 2: from element 2 to 3: add -1
+Solution: v=[0, 0, 0, 0], 
+after update 1: v1=[1, 1, 0, 0], its difference array vd1=[1, 0, -1, 0]
+After update 2: v2=[1, 1, -1, -1], difference array vd2=[1, 0, -2, 0]
+Do prefix sum on vd2, we get: v2_p = [1, 1, -1, -1]
+Add v2_p to original state, v_final = [2, 5, 1, 2]
+
+// difference array to find how many updates applied (reverse application)
+For example, original state = [1, 4, 2, 3], desired state = [2, 5, 4, 4]
+How many partial update (each partial update increase 1) need to convert original state to desired state?
+Solution:
+delta = desired_state - original_state = [1, 1, 2, 1]
+Difference array = [1, 0, 1, -1]
+positive_sum = 2, negative_sum = 1, 
+num_updates = max(positive_sum, negative_sum) = 2
 
 //difference array is used in partial update (the update is a arithmetic sequence, such as add 2, 4, 6 to 2rd, 3rd and 4th elements)
 Given vector v1={1, 3, 4, 2, 5}, do update (1, 4, 2), update 1st element to 4th element by adding 2, 4, 6…., find the vector after a series of such updates.
@@ -613,3 +632,4 @@ Assume v2={0, 0, 0, 0, 0, 0}, do update (1, 3, 2), we get v3={2, 4, 6, 8, 0, 0},
 3. Do 1st Prefix Sum on d2: {2, 2, 2, 2, -8, 0}
 4. Do 2rd Prefix Sum, {2, 4, 6, 8, 0, 0}
 Steps 2-4 is program solution for a large size vector.
+
