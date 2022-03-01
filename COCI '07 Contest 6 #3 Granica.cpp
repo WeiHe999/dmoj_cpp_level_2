@@ -1,38 +1,51 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool check(int m, int n, vector <int> vec1)
-{
-   for (int i = 1; i < n; i++) if (vec1[i] % m != vec1[0] % m) return false;
-   return true;
-}
-
 int main()
 {
-    cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
-    int n, a;
-    cin >> n;
-    vector <int> vec1(100);
+    cin.sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    int n, a, mina = INT_MAX;
+    vector <int> vec1, vec2;
     unordered_set<int> s1;
-    for (int i = 0; i < n; i++)
+    cin >> n;
+    for(int i = 0; i < n; i++)
     {
         cin >> a;
-        vec1[i] = a;
+        vec1.emplace_back(a);
     }
-    int r = abs(vec1[0] - vec1[1]);
-    for (int d = 1; d * d <= r; d++)
+    for (auto b : vec1)
     {
-        if (r % d != 0 ) continue;
-        int m1 = d, m2 = r / d;
-        if (check(m1, n, vec1) && m1 != 1 ) s1.insert(m1);
-        if (check(m2, n, vec1) && m2 != m1 ) s1.insert(m2);
+        for (auto c : vec1)
+        {
+            if (c != b)
+            {
+                vec2.emplace_back(abs(c - b));
+                mina = min(abs(c - b), mina);
+            }
+        }
+    }
+    for (int d = 1; d * d <= mina; d++)
+    {
+        if (mina % d != 0) continue;
+        int m1 = d, m2 = mina / d;
+        bool flag1 = false, flag2 = false;
+        for (int e = 0; e < vec2.size(); e++)
+        {
+            if (vec2[e] % m1 != 0) flag1 = true;
+            if (vec2[e] % m2 != 0) flag2 = true;
+        }
+        if (!flag1 && m1 != 1 && m1 != m2) s1.insert(m1);
+        if (!flag2) s1.insert(m2);
     }
     int ind = 0;
     for (auto x: s1)
     {
-        if (ind==s1.size()-1) cout << x;
+        if (ind==s1.size()-1)
+        {
+            cout << x;
+        }
         else cout << x << " ";
-        ind ++;
+        ind++;
     }
     cout << endl;
 }
