@@ -4,8 +4,16 @@ https://techiedelight.com/tools/clike
 // reference with example
 https://www.cplusplus.com/reference/queue/queue/pop/
 
+CP algorithms:
+https://cp-algorithms.com/
 
 Zoom meeting: https://zoom.us/j/92941888492 (Passcode: 6464415960)
+Ccc-winter-2022: Zoom Link: https://zoom.us/j/97017497850
+Password: 9192023039 
+CCC-2-winter assignment contest password: 937a0fa19719
+CCC-2-Winter 2022 course notes:
+https://docs.google.com/document/d/1kbIzuCQ76Dl150K8dWJ8ruFMUMVQAs2sP3z93bHHnsw/edit
+
 
 // include
 #include <bits/stdc++.h> // everything included
@@ -99,6 +107,9 @@ int main()
 string str1= "Mike";
 printf("This is %s", str1.c_str());
  
+// input output from files
+ifstream fin("template.in"); 
+ofstream fout("template.out"); }
 
 // output ****
 // output decimal number rounded to 2 points after decimal point
@@ -202,7 +213,7 @@ subject = match.suffix().str();}
 
 // remove a char from a string
 b.erase(remove(b.begin(), b.end(), '*'), b.end());
-b = regex_replace(b, regex(“*”, “”); //remove *
+b = regex_replace(b, regex(“*”), “”); //remove *
 
 // compare two strings
 string str1="abbc";
@@ -249,6 +260,13 @@ for(char c: s){
 
 
 // vector ***
+
+Tips:
+1. Do not do erase or insert on a vector because it is O(n) complexity, except erasing the last element which is O(1)
+2. If you need to do frequent operations (remove or add) to the ends of a sequence, using deque
+3. Use unordered_map if the key is hashable, for example, key is int, string, char
+4. Example: https://github.com/WeiHe999/data_structure/blob/main/deque_and_map.cpp
+
 // construct a vector from an array
 int arr[4] = {16,2,77,29};
 vector<int> vec (arr, arr + 4 );
@@ -256,6 +274,14 @@ vector<int> vec (arr, arr + 4 );
 // define and initialize a vector to constants
  vector<vector<int> > a1(10, vector<int>(10, 4));    // 2D vector of 10*10 with all 4
  vector<int > a2(10, 999); // 1D vector containing 10 elements of 999
+
+//4d array
+        int dp[50][50][tot_turns+1][2];
+        memset(dp, 0, sizeof dp); // initialize to 0
+        //initialization
+        dp[0][0][0][0] = 1; //facing east
+        dp[0][0][0][1] = 1; // facing south
+
 
 //assign
 vector<int> vec1;
@@ -274,6 +300,10 @@ v3.assign(vec1.begin() + 1, vec1.end());
 vector<int> v1={1, 3, 4, 2};
 sort(v1.begin(), v1.end()); //ascending order
 sort(v1.rbegin(), v1.rend()); //descending order
+
+Sort a vector of pairs {(2, “aaa”), (3, “mike”), (2, “zzz”)), ascending on the first element and then descending on the second element
+vector<pair<int, string> > a = {{2, "aaa"}, {3, "bbb"}, {2, "zzz"}};
+sort(a.begin(), a.end(), [](pair<int, string> a, pair<int, string> b){if(a.first==b.first) return a.second>b.second; else return a<b;});
 
 //std::stable_sort preserves the order of equivalent elements, while std::sort doesn’t, but sort O(N·log(N)) performs faster than stable_sort
 stable_sort(v1.begin(), v1.end()); //ascending order
@@ -312,9 +342,14 @@ void unique_vector(vector<int> &vec)
 }
 
 //use set to count items
+String str1 = “yyyyhe”;
 unordered_set<string> set1;
 set1.insert(str1);
 cout << set1.size() << ends;
+//erase: O(1)
+set1.erase(str1);
+// check if an element exists
+if (set1.count(str1)) count << “exist” << ends;
 
 
 //rotate 2D vector
@@ -359,6 +394,13 @@ for (int k=0; k<v2.size(); k++)
   low=std::lower_bound (v.begin(), v.end(), 20); //  index=3, the first position >=20
   up= std::upper_bound (v.begin(), v.end(), 20); // index=6, the first position >20
 
+//binary_search, return true or false
+vector<int> arr = {10, 15, 20, 25, 30, 35};
+if (binary_search(arr.begin(), arr.end(), 67))
+    cout << “Element exists in vector";
+else
+     cout << “Element does not exist";
+
 //count the number of elements in vector that is less or equal to a threshold
 //upper_bound (pos.begin(), pos.end(), threshold) return the iterator pointing to the first element larger than the threshold
 int count = upper_bound (pos.begin(), pos.end(), threshold) - pos.begin();
@@ -391,7 +433,7 @@ auto it2=set_difference (first.begin(), first.end(), second.begin(), second.end(
 std::cout << "The intersection has " << (v1.size()) << " elements:\n"; //2
 std::cout << "The difference has " << (v2.size()) << " elements:\n"; //3
 
-//merge a local vector to a global vector
+//merge a local vector to a global vector (don’t use insert for vector)
 global_visited.insert(global_visited.end(), local_visited.begin(), local_visited.end() );
 
 // math calculation ***
@@ -414,6 +456,20 @@ int int_min = INT_MIN;
 long long ll_max = LLONG_MAX;
 Long long ll_min = LLONG_MIN;
 
+# power
+power(2, n) may cause TLE, because it is O(n). 
+For example :
+long long s = 0;
+Int p = 1;
+for (int i=0; i<n; i++) s+=power(2, i);
+Should be changed to:
+long long s = 0, p=1;
+for (int i=0; i<n; i++) 
+{
+    s = s + p;
+    P = p*2;
+}
+
 INT_MAX 2147483647 (10e9)
 LONG_MAX 2147483647 (10e9)
 LLONG_MAX 9,223,372,036,854,775,807 (10e18)
@@ -422,6 +478,16 @@ double max: 10e305 (less accurate)
 int a = 1000000;
 long long  b = a*a; // overflow, due to operation on int
 long long b = 1ll*a*a; // correct, a is promoted to long long before operation
+
+// GCD (built-in function: __gcd(a, b) and LCM
+long long lcm(long long a, long long b)
+{
+    return (a * b) / __gcd(a, b);
+}
+
+# find angle from coordinates (0-360 degree)
+double angle = atan2(y*1.0, x) * 180 / p;
+if (angle < 0) angle += 360.0;
 
 // function calls ****
 // use reference in function call
@@ -469,10 +535,44 @@ if(it!=s.end()) cout << *it << endl;
 it = s.upper_bound(4); // point to the first element > 4
 if(it!=s.end()) cout << *it << endl; 
 
+// we can get the first (smallest) and the last (largest) element from set
+// we can also apply lower_bound and upper_bound on set
+set<int> s;
+s.insert(1); // [1]
+s.insert(14); // [1, 14]
+s.insert(9); // [1, 9, 14]
+s.insert(2); // [1, 2, 9, 14]
+cout << *s.upper_bound(7) << '\n'; // 9
+cout << *s.upper_bound(9) << '\n'; // 14
+cout << *s.lower_bound(5) << '\n'; // 9
+cout << *s.lower_bound(9) << '\n'; // 9
+cout << *s.begin() << '\n'; // 1
+auto it = s.end();
+cout << *(--it) << '\n'; // 14
+s.erase(s.upper_bound(6)); // [1, 2, 14]
+
+// multiset: 
+1. essentially a sorted set that allows multiple copies of the same element.
+2. The begin(), end(), lower_bound(), and upper_bound() operations work the same way they do in the normal sorted set.
+multiset<int> ms;
+ms.insert(1); // [1]
+ms.insert(14); // [1, 14]
+ms.insert(9); // [1, 9, 14]
+ms.insert(2); // [1, 2, 9, 14]
+ms.insert(9); // [1, 2, 9, 9, 14]
+ms.insert(9); // [1, 2, 9, 9, 9, 14]
+cout << ms.count(4) << '\n'; // 0
+cout << ms.count(9) << '\n'; // 3
+cout << ms.count(14) << '\n'; // 1
+
 // map and unordered_map ****
 unordered_map<string, float> dict1 = {{"b", 12.3}};
 dict1["c"] = 14.6;
 dict1.insert({"g", 167.8});
+//erase: O(1)
+dict1.erase(“g”);
+// check if an element in the dict
+if dict1.count(“g”) count << “exist” << ends;
 // access elements
 for (auto x: dict1) cout << x.first << x.second << endl;
 
@@ -502,6 +602,15 @@ sort(vect1.begin(), vect1.end());
 // difference between map and unordered_map
 map: use binary-search tree to store data, it is ordered, search complexity O(log(n))
 unordered_map: use hash function and array to store data, it is unordered, search complexity O(1)
+
+// The ordered map supports all of the operations that an unordered map supports, and additionally supports lower_bound and upper_bound
+map<int, int> m;
+m[3] = 5; // [(3, 5)]
+m[11] = 4; // [(3, 5); (11, 4)]
+m[10] = 491; // [(3, 5); (10, 491); (11, 4)]
+cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << '\n'; //10 491
+cout << m.upper_bound(10)->first << " " << m.upper_bound(10)->second << '\n'; //11  4
+m.erase(11); // [(3, 5); (10, 491)], O(log(n))
  
 // tuple ****
 vector<tuple<string, int, int> > a;
@@ -541,6 +650,10 @@ std::array<int, 3> a2 = {1, 2, 3};
 sort(a1.begin(), a1.end());
 for(const auto& s: a3) std::cout << s << Lendl;
 
+When using C++, arrays should be declared globally if at all possible. This avoids the common issue of initialization to garbage values.
+# when defining an array inside main(), we need to set it elements to all 0
+int dp[50];
+memset(dp, 0, sizeof dp); // initialize to 0
 
 // list *** (double link-list)
 #include <list>
@@ -558,6 +671,22 @@ make_heap(v1.begin(), v1.end(), [](pair <int, int> a, pair <int, int> b) {return
 pop_heap(v1.begin(), v1.end(), [](pair <int, int> a, pair <int, int> b) {return a > b;});
 cout << v1.back().first << ", " << v1.back().second << endl;
 v1.pop_back();
+
+// priority queue (fast to get the max-value element)
+Insert: O(log(n))
+Delete an element: O(log(n))
+Retrieve the max-value element: O(log(n))
+
+priority_queue<int> pq;
+pq.push(4); // [4]
+pq.push(2); // [2, 4]
+pq.push(1); // [1, 2, 4]
+pq.push(3); // [1, 2, 3, 4]
+cout << pq.top() << endl; // 4
+pq.pop(); // [1, 2, 3]
+pq.pop(); // [1, 2]
+pq.push(5); // [1, 2, 5]
+cout << pq.top() << endl; // 5
 
 // date time ****
 
@@ -588,6 +717,60 @@ memcpy(&tm2, localtime(&timeSinceEpoch_new), sizeof (struct tm));
 //print date time in right format
 std::cout << tm2.tm_year+1900 << "-" << setw(2) << setfill('0') << tm2.tm_mon+1 << "-" << setw(2) << setfill('0') << tm2.tm_mday << " " << setw(2) << setfill('0') << tm2.tm_hour << ":" << setw(2) << setfill('0')<< tm2.tm_min << ":" << setw(2) << setfill('0')<< tm2.tm_sec << endl;   
 
+// permutation
+#1. Permutation on a vector using built-in function, is used to permeate a vector from the starting order.
+    vector<int> a={1, 3, 2};
+    sort(a.begin(), a.end()); // must sort in ascending order, otherwise some permutations will be missing
+    do {
+        for (auto x: a) cout << x << ", ";
+        cout << endl; //1,2,3;  1,3,2;  2,1,3; 2,3,1; 3,1,2; 3,2,1
+    }
+    while (next_permutation(a.begin(), a.end())); //next permutation larger than the previous one
+    cout << "after permutation: " << endl;
+    for (auto x: a) cout << x << ", "; //1, 2, 3 (back to original order)
+    cout << endl;    
+
+#2. Permutation using recursion: generate 4-digit permutations using [‘a’, ‘b’]
+void permute(vector<char> a, string prefix, int tot_len)
+{
+    if (prefix.size()==tot_len)
+    {
+        cout << prefix << endl;
+        return;
+    }
+    for (auto x: a)
+    {
+        string new_prefix = prefix + x;
+        permute(a, new_prefix, tot_len);
+    }
+}
+int main() {
+    vector<char> a={'a', 'b'};
+    permute(a, "", 3);  
+}
+Output: aaa, aab, aba, abb, baa, bab, bba, bbb
+
+#3, using loop to generate permutation: generate 4-digit permutations using [‘a’, ‘b’]
+# use a vector to append temporary result: {“”, “a”, “b”, “aa”, “ab”, “ba”, “bb”}
+# best solution, can generate all of the 1-digit, 2 digit, 3 digit permutations
+vector<char> a={'a', 'b'};
+vector<string> v1;
+int tot_len = 3;
+v1.push_back("");
+vector<string> result;
+for (int i=0; i<v1.size(); i++)
+{
+    for (auto x: a)
+    {
+        string new_str = v1[i] + x;
+        if (new_str.size()==tot_len) result.push_back(new_str);
+        else v1.push_back(new_str);
+    }
+}
+for (auto x: result) cout << x << endl;
+Output: aaa, aab, aba, abb, baa, bab, bba, bbb
+
+
 // class ***
 https://www.youtube.com/watch?v=lrMaVM3eZOo
 
@@ -607,20 +790,24 @@ Int s2_4 = psa[3]-psa[0]; # sum from from the 2rd element to the 4th element
 // difference array for partial constant update
 For example, original state = [1, 4, 2, 3], 
 Update 1: from element 1 to 2, add 1, 
-update 2: from element 2 to 3: add -1
+update 2: from element 3 to 4: add -1
 Solution: v=[0, 0, 0, 0], 
-after update 1: v1=[1, 1, 0, 0], its difference array vd1=[1, 0, -1, 0]
-After update 2: v2=[1, 1, -1, -1], difference array vd2=[1, 0, -2, 0]
-Do prefix sum on vd2, we get: v2_p = [1, 1, -1, -1]
+after update 1: v1=[1, 1, 0, 0], its difference array vd1=[1, 0, -1, 0, 0]
+After update 2: v2=[1, 1, -1, -1], difference array vd2=[1, 0, -2, 0, 1]
+Do prefix sum on vd2, we get: v2_p = [1, 1, -1, -1, 0], trim to original length [1, 1, -1, -1]
 Add v2_p to original state, v_final = [2, 5, 1, 2]
+Coding solution: 1) for update 1: vd1=[1, 0, -1, 0, 0], (+1 to start-element, -1 to the one after the end-element)
+2. For update 2: vd2=[1, 0, -2, 0, 1] ((-1 to start-element, +1 to the one after the end-element)
+3. Prefix sum: spa = [1, 1, -1, -1, 0], trim to the length of original vector==> spa=[1, 1, -1, -1]
+4. Add prefix sum to original vector: v_final = [2, 5, 1, 2]
 
 // difference array to find how many updates applied (reverse application)
 For example, original state = [1, 4, 2, 3], desired state = [2, 5, 4, 4]
 How many partial update (each partial update increase 1) need to convert original state to desired state?
 Solution:
-delta = desired_state - original_state = [1, 1, 2, 1]
-Difference array = [1, 0, 1, -1]
-positive_sum = 2, negative_sum = 1, 
+delta = desired_state - original_state = [1, 1, 2, 1] (this is the array after we perform partial updates, corresponding to v2 in above example)
+Difference array = [1, 0, 1, -1, -1]
+positive_sum = 2, negative_sum = 2, 
 num_updates = max(positive_sum, negative_sum) = 2
 
 //difference array is used in partial update (the update is a arithmetic sequence, such as add 2, 4, 6 to 2rd, 3rd and 4th elements)
@@ -632,4 +819,295 @@ Assume v2={0, 0, 0, 0, 0, 0}, do update (1, 3, 2), we get v3={2, 4, 6, 8, 0, 0},
 3. Do 1st Prefix Sum on d2: {2, 2, 2, 2, -8, 0}
 4. Do 2rd Prefix Sum, {2, 4, 6, 8, 0, 0}
 Steps 2-4 is program solution for a large size vector.
+
+// prime related algorithms
+1) how to test if a number is prime
+loop to sqrt(n)
+2) how to find all prime numbers up to 100?
+Sieve algorithm: start from prime number, 2, 3, 5, exclude 2*2, 2*3, 2*4, 2*5 …. For prime 2, exclude 3*3, 3*4, 3*5… for prime 3, exclude 5*5, 5*6, 5*7… for prime 5
+n*log(log(n))
+3) how to do prime factorization?
+Case 1: n = 60, loop from 2 to sqrt(n)=7
+60/2=30, 30/2=15, 15/3=5, 5/5=1,
+prime factors = [2, 2, 3, 5]
+Cas2 2: n = 42, loop from 2 to sqrt(n)=6 (for (int i=2; i<=6; i++)
+42/2=21, 21/3=7, exit until 7 is not divisible by any of [2, 3, 4, 5, 6], if 7 !=1, put 7 into prime_factors
+prime factors=[2, 3, 7]
+
+// modulo
+(a + b) mod m = (a mod m + b mod m) mod m 
+(a − b) mod m = (a mod m − b mod m) mod m 
+(a·b) (modm)=((a mod m)·(b mod m)) mod m 
+a^b mod m=(a mod m) ^b mod m 
+
+
+##### Functions ###############################
+
+// calculate: a**b % c, for example, 2**121 % 100000007
+long long power_mod(long long a, long long b, long long c)
+{
+    if (b == 1) return a % c;
+    a = a % c;
+    if (b % 2 == 0)  
+    {
+        return (power_mod(a, b / 2, c) * power_mod(a, b / 2, c)) % c;
+    }
+    else 
+    {
+        return (power_mod(a, b / 2, c) * power_mod(a, b / 2, c) * power_mod(a, 1, c)) % c;
+    }
+}
+// Mr. Nan’s version
+long long power( long x, long n, long mod ) {   // calculate x ^ n % mod 
+	if ( n == 0 ) return 1 ;      // base case
+	long t = power ( x , n/2 , mod );     //calculate  x^(n/2) % mod 
+	t = t * t % mod ; 
+	if(n % 2 != 0)   t = t * x % mod ;
+	return t;
+}
+
+/* Iterative Function to calculate (x^y)%p in O(log y) */
+int power(long long x, unsigned int y, int p)
+{
+	int res = 1;	 // Initialize result
+
+	x = x % p; // Update x if it is more than or
+				// equal to p
+
+	if (x == 0) return 0; // In case x is divisible by p;
+
+	while (y > 0)
+	{
+	    //cout << "x=" << x << ", y=" << y << ", res=" << res << endl; 
+		// If y is odd, multiply x with result
+		if (y%2!=0)
+			res = (res*x) % p;
+
+		// y must be even now
+		y = y>>1; // y = y/2
+		x = (x*x) % p;
+	}
+	return res;
+}
+
+
+# counter-clockwise rotate a square matrix
+# x: the input row id, y: input col id, a: the origin row id, b: the origin col id, n: the length of the square matrix)
+# for example, clockwise rotate the element at (4, 5) along origin (1, 1) for a square matrix of size 5
+pair <long long, long long> ccw_rotate(long long x, long long y, long long a, long long b, long long n)
+	{
+	    x = x - a;
+	    y = y - b;
+	    long long x2 = n - y - 1;
+	    long long y2 = x; 
+            x2 += a;
+            y2 += b
+	    return make_pair(x2, y2);
+	}
+
+# clockwise rotate a square matrix
+pair <long long, long long> cw_rotate(long long x, long long y, long long a, long long b, long long n)
+	{
+	    x = x - a;
+	    y = y - b;
+	    long long x2 = y; # based on y2=x, —> x2 = y
+	    long long y2 = n-1-x; 
+            x2 += a;
+            y2 += b
+	    return make_pair(x2, y2);
+	}
+
+# find the rank, for example {2, 2, 5, 5, 4} —> ranks = {4, 4, 1, 1, 3}
+vector<int> find_rank(vector<int> scores)
+{
+    int n = scores.size();
+    vector<int> ranks(n, 0);
+    vector<pair<int, int> > vec1; //{score, index}
+    for (int i=0; i<scores.size(); i++)
+    {
+        vec1.push_back({scores[i], i+1});
+    }
+    sort(vec1.rbegin(), vec1.rend());
+    int rank = 1;
+    int prev = vec1[0].first;
+    ranks[vec1[0].second-1] = rank;
+        
+    for (int z = 1; z < vec1.size(); z++)
+    {
+        if (vec1[z].first != prev) rank = z + 1;
+        ranks[vec1[z].second-1] = rank;
+        prev = vec1[z].first;
+    }
+    return ranks;
+}
+
+// count the number of subarrays with even sum
+/* 
+For example v1 = {4, 5, 7, 8, 9, 3}
+             4   5.  7.  8.   9.   3
+s=0.      1.   0.  2.  3.   1.   4.  (sum=11)
+t:           0.   2. 1.   1.   4.   2
+s: the number even-sum subarrays ended at i 
+t: the number odd-sum subarrays ended at i 
+*/
+long long count_even_sum(vector<int> v1)
+{
+    long long tot=0, s=0;//s: the number of even-sum subarrays ended at index i
+    for (long long i=0; i<v1.size(); i++)
+    {
+        if(v1[i]%2==0)
+        {
+            s = s + 1; // s+1 is the number even-sum subarrays ended at i
+        }
+        else
+        {
+            s = i-s; // i-s is the number of odd-sum subarrays ended at i
+        }
+        tot += s;
+    }
+    return tot;
+}
+
+// convert integer from other base to base 10 (base-2 number needs to be represented in string, otherwise overflow)
+long long to_base10(long long b1, string num)
+{
+    long long b10_num = 0;
+    long long p = 1;
+    for (long long a = num.size() - 1; a >= 0; a--)
+    {
+        b10_num += (num[a] - '0') * p;
+        p = p*b1;
+    }
+    return b10_num;
+}
+
+// convert integer from base 10 to other base
+string from_base10(long long b2, long long n)
+{
+    string str1 = "";
+    while (n != 0)
+    {
+        str1 += to_string(n % b2);
+        n /= b2;
+    }
+    reverse(str1.begin(), str1.end());
+    return str1;
+}
+
+// find combinations from a n-element vector
+#include <bits/stdc++.h>
+using namespace std;
+
+// find all k-element combinations from n-element vector
+void combinations(int ind, int k, vector <int> vec1, vector <int> &vec2)
+{
+    if (vec2.size() == k)
+    {
+        for (int a = 0; a < vec2.size() - 1; a++) cout << vec2[a] << ", ";
+        cout << vec2.back() << endl;
+        return;
+    }
+    for (int x = ind + 1; x < vec1.size(); x++)
+    {
+        vector <int> vec3 = vec2;
+        vec3.emplace_back(vec1[x]);
+        combinations(x, k, vec1, vec3);
+    }
+}
+
+// find all combinations with lengths from 1 to n from n-element vector
+void combinations_all(int ind, vector <int> vec1, vector <int> vec2)
+{
+    if (vec2.size() >0 &&  vec2.size() <= vec1.size())
+    {
+        for (int a = 0; a < vec2.size() - 1; a++) cout << vec2[a] << ", ";
+        cout << vec2.back() << endl;
+    }
+    if (vec2.size() > vec1.size()) return;
+    for (int x = ind + 1; x < vec1.size(); x++)
+    {
+        vector <int> vec3 = vec2;
+        vec3.emplace_back(vec1[x]);
+        combinations_all(x, vec1, vec3);
+    }
+}
+
+int main()
+{
+    cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
+    vector <int> vec1 = {1, 2, 3, 4}, vec2;
+    int k = 3;
+    //k-length combinations
+    combinations(-1, k, vec1, vec2);
+    // all combinations
+    vec2 = {};
+    combinations_all(-1, vec1, vec2);
+}
+
+
+/***** Ideas and condition reacts *******/
+# When using recursion and got Time Limit Exception (TLE), try to use Memoization. Tips when using memoizations:
+1. Get value from memo each time when you call recursion function
+2. Save value to memo each time when you return
+3. The recursion function must return something, cannot be void
+4. The memo can be a vector or an unorded_map, and must use reference, such as unordered_map <int, int> & map1
+Example: Palindromic Integer Partition, for example, input=7, output: 8 (8 ways of palindromic partitions, such as; 7=7, 7=1+5+1…)
+long long find_num_palindromes(long long n, unordered_map <long long, long long> &memo)
+{
+    if (n == 1 || n == 0)
+    {
+        memo[n] = 1;
+        return 1;
+    }
+    long long s = 0;
+    for (long long x = 1; x * 2 <= n; x++)
+    {
+        if (memo.count(n - (x * 2))) s += memo[n - (x * 2)];
+        else s += find_num_palindromes(n - (x * 2), memo);
+    }
+    memo[n] = s + 1;
+    return s + 1;
+}
+
+# Complete search using next_permutation
+For example (USACO 2019 December Bronze P3 - Livestock Lineup), 8 cows: Bessie, Buttercup, Belinda, Beatrice, Bella, Blue, Betsy, and Sue, find the alphabetically min order satisfying the given conditions, such as: 
+Buttercup must be milked beside Bella
+Blue must be milked beside Bella
+Sue must be milked beside Beatrice
+Idea: search all permutations using next_permutation, put all satisfied permutations into a vector, find the min from the result vector.
+3Tips for next_permutation:
+1. Sort the string or vector before using next_permuation()
+2. Use do { } while (next_permuation(v1.begin(), v1.end());
+
+# complete search among all combinations 
+For example: ingredients can be chosen from {A, B, C}, complete search all combinations: {}, {A}, {B}, {C}, {A, B}, {A, C}, {B, C}, {A, B, C}, to find the one maximize a metric
+Another examples, we have 3 deals, each deal can be applied once, complete search all combinations: {}, {D1}, {D2}, {D3}, {D1, D2}, {D2, D3}, {D1, D3}, {D1, D2, D3}, to find the min cost.
+
+# When dealing with order (or position) problem, make the final order to ascending sorted, and then change the original positions relative the final positions
+For example (USACO 2022 February Bronze P2 - Photoshoot 2), originally we have 5 numbers: 5 1 3 2 4, we want to get the final sequence: 4 5 2 1 3, we are allowed to move number to left. How many moves do we need?
+The final positions: 1 2 3 4 5 (make it to ascending order)
+The original positions are mapped to: v1= {2 4 5 3 1}
+Idea: loop v1, if seeing any element > current_max, ans++, In above example, 3 < current_max (5), ans=1; 1 < current_max (5), ans=2
+Final answer: 2
+
+# partial sum array in a sequence
+When the problem says keeping combining two adjacent numbers, it is a partial sum problem.
+For example (USACO 2022 February Bronze P1 - Sleeping in Class)
+Original sequence: 1 2 3 1 1 1
+Keep combining two adjacent numbers until all elements are equal in the sequence. It essential groups the sequence into 3 groups such that each group sums to 3, e.g., (1, 2) (3) (1, 1, 1)
+PSA for the original sequence: 0 1 3 6 7 8 9, 
+Idea: loop PSA, find the first element (3) which is a factor of total sum (9), and then check if 1*3, 2*3, 3*3 are all in PSA, if yes, return {3, 3, 3}
+
+# partial update in a sequence using difference array, to address Time Limit Error (TLE)
+For example, original array = {0, 0, 0, 0, 0}, first add 1 in [2, 4], then add 1 in [1, 3],
+difference_array = {0, 0, 0, 0, 0} 
+Add 1 in [2, 4] —> difference_array = {0, 0, 1, 0, 0, -1} (ind-2 add 1, ind-5 subtract 1)
+Add 1 in [1, 3] —> difference_array = {0, 1, 1, 0, -1, -1} (ind-1 add 1, ind-4 subtract 1)
+Find PSA: spa = {0, 0, 1, 2, 2, 1, 0} ==> final increments for all the 5 elements = {0, 1, 2, 2, 1}
+
+
+
+
+
+
 
