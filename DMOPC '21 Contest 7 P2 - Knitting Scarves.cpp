@@ -1,46 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-
 int main()
 {
     cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
-    int n, q, a, b, c, left, right;
-    unordered_map<int, pair<int, int> > m1;
+    int n, q, l, r, k;
     cin >> n >> q;
-    for (int i=0; i<=n; i++)
+    unordered_map <int, pair <int, int> > m1;
+    for (int y = 0; y <= n; y++) m1[y] = {y - 1, y + 1};
+    for (int x = 0; x < q; x++)
     {
-        m1[i] = {i-1, i+1};
+        cin >> l >> r >> k;
+        m1[m1[l].first].second = m1[r].second;
+        m1[m1[r].second].first = m1[l].first;
+        m1[l].first = k;
+        m1[r].second = m1[k].second;
+        m1[m1[k].second].first = r;
+        m1[k].second = l;
     }
-    for (int i=0; i<q; i++)
+    int a = 0;
+    while (true)
     {
-        cin >> a >> b >> c;
-        int c_next = m1[c].second;
-        int b_next = m1[b].second;
-        int a_pre = m1[a].first;
-        
-        if (c_next!=a)
+        a = m1[a].second;
+        if (m1[a].second == n + 1)
         {
-            m1[c] = {m1[c].first, a};
-            m1[a] = {c, m1[a].second};
-            m1[b] = {m1[b].first, c_next};
-            m1[c_next] = {b, m1[c_next].second};
-            m1[b_next] = {a_pre, m1[b_next].second};
-            m1[a_pre] = {m1[a_pre].first, b_next};            
+            cout << a << endl;
+            break;
         }
-        
-
+        cout << a << " ";
     }
-    
-    int k = 0, cnt = 0;
-    while (k<=n)
-    {
-        if (cnt==n) break;
-        if (cnt<n-1) cout << m1[k].second << " ";
-        else cout << m1[k].second << endl;
-        k = m1[k].second;
-        cnt ++;
-    }
-
-    
 }
