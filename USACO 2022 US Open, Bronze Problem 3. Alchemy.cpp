@@ -1,45 +1,55 @@
 #include <bits/stdc++.h>
- 
 using namespace std;
+
+unordered_map <int, int> m1;
+unordered_map <int, vector <int> > graph;
+
+bool make_metal(int start_node)
+{
+    if (m1[start_node]>0)
+    {
+        m1[start_node]--;
+        return true;
+    }
+    
+    if (graph[start_node].size()==0) return false;
+
+    for (auto a : graph[start_node])
+    {
+        if (!make_metal(a)) return false;
+    }
+    return true;
+}
+
+
+int main()
+{
+    cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
+    int n, k, a, want, m, c, tmp, ans = 0;
+    cin >> n;
+    for (int x = 0; x < n; x++)
+    {
+        cin >> a;
+        m1[x + 1] = a;
+    }
+    cin >> k;
+    for (int b = 0; b < k; b++)
+    {
+        cin >> want >> m;
+        for (int y = 0; y < m; y++)
+        {
+            cin >> c;
+            graph[want].emplace_back(c);
+        }
+    }
+    int cnt = m1[n];
+    m1[n] = 0;
+    while (make_metal(n))
+    {
+        cnt++;
+    }
+
+    cout << cnt << endl;
+    
  
-int main() {
-  int n;
-  cin >> n;
-  vector<int> have(n);
-  for(auto& x: have) cin >> x;
-  int k;
-  cin >> k;
-  vector<vector<int>> need(n);
-  while(k--) {
-    int want, m;
-    cin >> want >> m;
-    need[--want].resize(m);
-    for(auto& x: need[want]) {
-      cin >> x;
-      x--;
-    }
-  }
-  int ret = 0;
-  while(true) {
-    vector<int> consume(n);
-    consume[n-1]++;
-    bool good = true;
-    for(int i = n-1; i >= 0; i--) {
-      if(consume[i] <= have[i]) {
-        have[i] -= consume[i];
-        continue;
-      }
-      if(need[i].size() == 0) {
-        good = false;
-        break;
-      }
-      int take = min(consume[i], have[i]);
-      consume[i] -= take;
-      have[i] -= take;
-      for(int out: need[i]) consume[out] += consume[i];
-    }
-    if(good) ret++;
-    else break;
-  }
-  cout << ret << "\n";
 }
