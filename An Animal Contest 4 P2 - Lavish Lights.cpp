@@ -31,7 +31,8 @@ int main()
     for (long long x = 0; x < q; x++)
     {
         cin >> t;
-        if (t % vec1[n] == 0) cout << -1 << endl;
-        else cout << binary_search(1, n, t) << endl;
+        if (t % vec1[n] == 0) cout << -1 << "\n";
+        else cout << binary_search(1, n, t) << "\n";
     }
+    return 0;
 }
