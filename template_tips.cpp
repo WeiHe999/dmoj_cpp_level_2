@@ -14,6 +14,9 @@ CCC-2-winter assignment contest password: 937a0fa19719
 CCC-2-Winter 2022 course notes:
 https://docs.google.com/document/d/1kbIzuCQ76Dl150K8dWJ8ruFMUMVQAs2sP3z93bHHnsw/edit
 
+Graph editor:
+https://csacademy.com/app/graph_editor/
+
 
 // include
 #include <bits/stdc++.h> // everything included
@@ -138,6 +141,50 @@ cout << fixed << setprecision(6) << d << endl; //65573018.500000, correct answer
 cout << "? " << 2 << " " << 1 << endl << flush;
 cin >> ans;
 
+// competitive programming debug techniques
+Time limit exceed (TLE)
+#1) The number of operations in 1 second: 10^9, therefore
+1. n=15, allow O(n!), we can do permutation/combinations, 12!=0.5 * 10^9
+2. n=10^9, allow O(n)
+3. n=10^4, allow O(n^2)
+4. n=400, allow O(n^3)
+5. n=100, allow O(n^4)
+6. n=10^6, allow O(n*logn) or O(n*sqrt(n) )
+7. n=10^18, allow O(logn) binary search or O(sqrt(n)) prime factors
+#2) try to use binary search (lower_bound, upper_bound) to deal with the big arrays (length of array > 10^9)
+#3) If a function is called millions times, try to put it into main program to reduce the time
+#4) in recursive function, using global variables can reduce the execution time, for example: USACO 2022 US Open, Bronze Problem 3. Alchemy 
+# if there are many lines of output, use “\n”, do not use cout << endl; because cout<< endl causing flushout leading to more time.
+
+Segmentation error
+#1) It may be caused by accessing out-of-bound index, for example, vector<int> a={1, 2, 3}; int b = a[10];
+#2) It may caused by divided by 0
+
+Memory error
+#1) It may be caused by allocating a huge vector or 2D vector that consumes a huge memory
+
+Debug
+#1) If you see wrong answer with output “123”, you can get the input of the problem in your code:
+If (ans==123) cout << input_int << Lendl;
+
+// double and long double
+Tips: 
+1)# long long a=10; double b=a*1.0;//1.0 is a double
+2)# long long a=10, long double b = a*1.0L; // 1.0L is a long double
+3) when converting long long to decimal for decimal operation and then convert result back to long long, use: double long
+    long long a=10000000000000001; //16 zeros
+    double b = a * 1.0; //double has 15 precision, 1.0 is a double
+    long long c = (long long) b;
+    long double d = a*1.0L; // L means double long
+    long long e = (long long) d;
+    cout << a << endl; //10000000000000001 correct
+    cout << c << endl; //1000000000000000 wrong
+    cout << e << endl; //10000000000000001 correct
+4)# round down and round up for long long, we can use: long int lroundl (long double x); DO NOT use: double floor (double x);
+    long long f = lroundl(a*1.5L-0.5);
+    cout << f << " is equal to: " << (long long) (a*1.5L) << endl; 
+//15000000000000001 is equal to: 15000000000000001 correct
+cout << (long long) floor(a*1.5) << endl; //15000000000000000 wrong
 
 // string ****
 // loop over a string or vector
@@ -153,6 +200,19 @@ if (pos != -1) count << line[pos];
   std::string key ("sixth");
   std::size_t found = str.rfind(key);  //index of the last ‘sixth’
 
+// digit string manipulations
+// construct integer string: 100000
+string str1(6, '0');
+str1[0] = ‘1’;
+// convert 23 to 5-digit palindrome
+string p1 = ’234’
+string p2 = p1;
+reverse(p2.begin(), p2.end());
+string palindrome = p1 + p2.substr(1); //“234” + “32” = “23432”
+// convert string to long long or int
+String a = “1234”
+long long b = stol(a);
+Int c = stoi(a);
 
 # sort a string
 string sortedWord = "yifeng";
@@ -611,6 +671,8 @@ m[10] = 491; // [(3, 5); (10, 491); (11, 4)]
 cout << m.lower_bound(10)->first << " " << m.lower_bound(10)->second << '\n'; //10 491
 cout << m.upper_bound(10)->first << " " << m.upper_bound(10)->second << '\n'; //11  4
 m.erase(11); // [(3, 5); (10, 491)], O(log(n))
+cout << m.begin()->first << endl;
+
  
 // tuple ****
 vector<tuple<string, int, int> > a;
@@ -770,6 +832,29 @@ for (int i=0; i<v1.size(); i++)
 for (auto x: result) cout << x << endl;
 Output: aaa, aab, aba, abb, baa, bab, bba, bbb
 
+// tree and binary tree
+# the difference between a complete binary tree and full binary tree:
+A full binary tree: each node can have either aero children or 2 children
+A complete binary tree: each node can have zero, one left, or two children.
+# the properties of complete binary tree and full binary tree
+1), nodes are labelled from1 1, 2, 3, … in horizontal order
+2), node k’ s left child is: 2*k, right child is 2*k+1
+3), node k’s parent is k//2
+4), the depth of the tree if log2(n), n is the number of nodes
+5), we can use an array to represent a complete/full binary tree
+
+## level order traversal
+In level order traversal of complete binary tree, the index of node m has left child at index 2*m, right child at 2*m+1 (index starting from 1)
+
+** Find factor for an integer m
+Loop k from 1 to sqrt(m), if m%k==0, k and m/k are factors, O(sqrt(m))
+
+** find factors for all integers from 1 to m:
+Use Sieve algorithm, O(m*logm)
+Loop k from 1 to m step size=k, 
+When k=1, v1[1]++, v1[2]++
+When k=2, v1[2]++, v1[4]++…..
+
 
 // class ***
 https://www.youtube.com/watch?v=lrMaVM3eZOo
@@ -843,6 +928,22 @@ a^b mod m=(a mod m) ^b mod m
 
 ##### Functions ###############################
 
+# function to count number of ways for letter arrangements, for example, AAB, there are 3!/2! Permutations
+long long factorial(long long n)
+{
+    if (n == 0) return 1;
+    return n * factorial(n - 1);
+}
+long long letter_arrangements(string str1)
+{
+    unordered_map <char, long long> m1;
+    for (long long x = 0; x < str1.size(); x++) m1[str1[x]]++;
+    long long s = factorial(str1.size());
+    for (auto a : m1) s /= factorial(a.second);
+    return s;
+}
+
+
 // calculate: a**b % c, for example, 2**121 % 100000007
 long long power_mod(long long a, long long b, long long c)
 {
@@ -888,6 +989,39 @@ int power(long long x, unsigned int y, int p)
 		x = (x*x) % p;
 	}
 	return res;
+}
+
+# recursive function to search if a word is in a grid of letters without visiting a cell twice, refer to: ECOO '12 R1 P4 - Boggled
+# argument: d is the starting point (x1, y1), table is the grid, word is the target word
+bool check_existence(pair <int, int> d, vector <vector <char> > table, string word, int ind, 
+set <pair <int, int> > &visited)
+{
+    if (ind == word.size())
+    {
+        return true;
+    }
+    vector <pair <int, int> > check = {{d.first - 1, d.second - 1}, {d.first - 1, d.second}, {d.first - 1, d.second + 1}, {d.first, d.second - 1},
+    {d.first, d.second + 1}, {d.first + 1, d.second - 1}, {d.first + 1, d.second}, {d.first + 1, d.second + 1}};
+    for (auto e : check)
+    {
+        if (e.first >= 0 && e.first < 4 && e.second >= 0 && e.second < 4)
+        {
+            if (table[e.first][e.second] == word[ind] && !visited.count(make_pair(e.first, e.second)))
+            {
+                set <pair <int, int> > visited1 = visited;
+                visited1.insert({e.first, e.second});
+                if (check_existence(e, table, word, ind + 1, visited1)) return true;
+            }
+        }
+    }
+    return false;
+}
+# main program to use check_existence, d is a pair representing the starting coordinates
+set <pair <int, int> > visited1 = {{d.first, d.second}};
+if (check_existence(d, table, word, 1, visited1))
+{
+    found = true;
+    break;
 }
 
 
@@ -1044,9 +1178,73 @@ int main()
     combinations_all(-1, vec1, vec2);
 }
 
+// function to find all factors for an integer, complexity = O(sqrt(n))
+unordered_set<int> find_factors(int num)
+{
+    unordered_set<int> s1;
+    for (int i=1; i<=sqrt(num); i++)
+    {
+        if (num % i == 0)
+        {
+            //perfect square number
+            if (num == i*i) s1.insert(i);
+            else
+            {
+                int k = num/i;
+                s1.insert(i);
+                s1.insert(k);
+            }
+        }
+    }
+    return s1;
+}
+
+// function to construct palindrome numbers for a given length n
+void construct_palindroms(int n, vector<long long> &vec1)
+{
+    //lower=1000, upper=9999
+    string lower_str(n, '0'), upper_str(n, '9');
+    lower_str[0] = '1';
+    // extracy the first-half digits
+    int half_len = ceil(n*1.0/2);
+    long long start = stol(lower_str.substr(0, half_len));
+    long long end = stol(upper_str.substr(0, half_len));
+    //loop 
+    for (long long i=start; i<=end; i++)
+    {
+        //odd
+        string p1, p;
+        p1 = to_string(i);
+        reverse(p1.begin(), p1.end());
+        if (n % 2 == 1) p = to_string(i) + p1.substr(1);
+        //even digits
+        else p = to_string(i) + p1; 
+        if (p[0]!='0') vec1.push_back(stol(p));
+    }
+}
+
+// function to enumerate all outcomes for N games
+void permutation_outcomes(string prefix, int current, int len, vector<string> &result)
+{
+    if (prefix.size() == len)
+    {
+        result.push_back(prefix);
+        return;
+    }
+    vector<char> r = {'W', 'L', 'T'};
+    for (int i=0; i<3; i++)
+    {
+        string new_prefix = prefix;
+        new_prefix += r[i];
+        permutation(new_prefix, current+1, len, result);
+    }
+    
+}
+
 
 /***** Ideas and condition reacts *******/
-# When using recursion and got Time Limit Exception (TLE), try to use Memoization. Tips when using memoizations:
+# memoization with recursion to deal with TLE
+When using recursion and got Time Limit Exception (TLE), try to use Memoization. Tips when using memoizations:
 1. Get value from memo each time when you call recursion function
 2. Save value to memo each time when you return
 3. The recursion function must return something, cannot be void
@@ -1069,7 +1267,7 @@ long long find_num_palindromes(long long n, unordered_map <long long, long long>
     return s + 1;
 }
 
-# Complete search using next_permutation
+##### Complete search using permutation
 For example (USACO 2019 December Bronze P3 - Livestock Lineup), 8 cows: Bessie, Buttercup, Belinda, Beatrice, Bella, Blue, Betsy, and Sue, find the alphabetically min order satisfying the given conditions, such as: 
 Buttercup must be milked beside Bella
 Blue must be milked beside Bella
@@ -1079,18 +1277,35 @@ Idea: search all permutations using next_permutation, put all satisfied permutat
 1. Sort the string or vector before using next_permuation()
 2. Use do { } while (next_permuation(v1.begin(), v1.end());
 
+Example-2: in CCC '13 S3 - Chances of Winning, for example, there are 3 games, each game can be W (win), L (loss), T (tie), there are 3*3=9 outcomes, such as: WWW, WLT, WTT, we can use permutation to list all outcomes, refer the function: permutation_outcomes
+
 # complete search among all combinations 
 For example: ingredients can be chosen from {A, B, C}, complete search all combinations: {}, {A}, {B}, {C}, {A, B}, {A, C}, {B, C}, {A, B, C}, to find the one maximize a metric
 Another examples, we have 3 deals, each deal can be applied once, complete search all combinations: {}, {D1}, {D2}, {D3}, {D1, D2}, {D2, D3}, {D1, D3}, {D1, D2, D3}, to find the min cost.
 
-# When dealing with order (or position) problem, make the final order to ascending sorted, and then change the original positions relative the final positions
+##### Positions a sequence problems:
+# example - 1: from original positions to the final positions
+When dealing with order (or position) problem, make the final order to ascending sorted, and then change the original positions relative the final positions
 For example (USACO 2022 February Bronze P2 - Photoshoot 2), originally we have 5 numbers: 5 1 3 2 4, we want to get the final sequence: 4 5 2 1 3, we are allowed to move number to left. How many moves do we need?
 The final positions: 1 2 3 4 5 (make it to ascending order)
 The original positions are mapped to: v1= {2 4 5 3 1}
 Idea: loop v1, if seeing any element > current_max, ans++, In above example, 3 < current_max (5), ans=1; 1 < current_max (5), ans=2
 Final answer: 2
 
-# partial sum array in a sequence
+# example - 2: position shift in cycles
+In this type of problem, each digit in the sequence is moved to another position, and such operation is performed k times (k is very big), use a graph to represent the transition cycles.
+For example (SAC '22 Code Challenge 4 Junior P4 - Obligatory Permutation Problem): the original permutation = {5 3 2 1 4}, and it will be performed 3 times (I.e., index-1 (5) is moved to index-5, index-2 (3) is moved to index-3). The idea to solve this type of the problems consists of 2 steps:
+Step-1: find position-change cycles, cycle-1: 1—>5—>4—>1 len=3, cycle-2: 2—>3—>2 len=2
+Step-2: move each digit in each cycle, for example in cycle 1: ind-1 is moved forward 100%3=1 steps to ind-5, in cycle 2: ind-2 is moved forward 100%2=0 steps to ind-2.
+Another example (USACO 2020 February Bronze P3 - Swapity Swap) is to perform M digit reverse K times, for example, original sequence = {1, 2, 3, 4, 5, 6}, we perform 1000 times of digit reverse operation (reverse [1, 4], then reverse [2, 5]), reverse [1, 4] produces {4, 3, 2, 1, 5, 6}, then reverse [2, 5] produces {4, 3, 5, 1, 2, 6}
+Step 1: find the position change cycles: first find the routing dict from mapping the original and final position: {4:1, 3:2, 5:3, 1:4, 2:5, 6:6}, then find the cycles: cycle-1: 1—>4—>1 len=2, cycle-2: 2—>5—>3—>2 len=3, cycle-3: 6—>6 len=1
+Step-2: operations=1000, in cycle-1: ind-1 is moved forward 1000%2=0 steps to ind-1, in cycle-2: ind-5 is moved forward 1000%3=1 steps to ind-2 
+Step-3: final sequence: {1, 2, 5, 4, 2, 6}, code is available at GitHub, data_structure/position_shift_in_a_sequence.cpp
+
+# Method-3: keep track (pre_node, next_node) for each node
+For example: in the problem DMOPC '21 Contest 7 P2 - Knitting Scarves, there are a sequence {1, 2, 3, 4, 5, 6} we move elements from 3 to 5 to the right of 1, we use unordered_map <int, pair<int, int> > m1 to track the pre_node and next_node, such as {0: (-1, 1), 1: (1, 2), 2: (1, 3)…}, when we move a segment of elements, we just need to change the pre_node/next_node for the boundary nodes, for example, if we move segment from 4 to 5 to the right of 1, we need to change the pre_node or next_node for the 6 boundary nodes (1, 2, 3, 4, 5, 6)
+
+##### partial sum array in a sequence
 When the problem says keeping combining two adjacent numbers, it is a partial sum problem.
 For example (USACO 2022 February Bronze P1 - Sleeping in Class)
 Original sequence: 1 2 3 1 1 1
@@ -1098,16 +1313,174 @@ Keep combining two adjacent numbers until all elements are equal in the sequence
 PSA for the original sequence: 0 1 3 6 7 8 9, 
 Idea: loop PSA, find the first element (3) which is a factor of total sum (9), and then check if 1*3, 2*3, 3*3 are all in PSA, if yes, return {3, 3, 3}
 
-# partial update in a sequence using difference array, to address Time Limit Error (TLE)
+Example-2: Multiple of K
+Tip: for multiple of k problems, we shall use remainders
+Problem: given an array {3 5 1 6 2 14}, find the max length of subarray with sum of multiple of 7
+Idea: step-1: find PSA: {0, 3, 8, 9, 15, 17, 31}, step-2: find remainder of 7 of PSA: {0, 3, 1, 2, 1, 3, 3}, step-3: created frequency map: {0: [0], 1: [2, 4], 2: [3], 3: [1, 5, 6]}
+Based on the frequency map, we can find the max length subarray, which is 6-1=5; we can also find the number of subarrays divisible by 7: for remainder 1, we 2-choose-2 = 1, for remainder 3, we have 3-choose-2=3, total number = 4
+
+###### partial update in a sequence using difference array, to address Time Limit Error (TLE)
 For example, original array = {0, 0, 0, 0, 0}, first add 1 in [2, 4], then add 1 in [1, 3],
 difference_array = {0, 0, 0, 0, 0} 
 Add 1 in [2, 4] —> difference_array = {0, 0, 1, 0, 0, -1} (ind-2 add 1, ind-5 subtract 1)
 Add 1 in [1, 3] —> difference_array = {0, 1, 1, 0, -1, -1} (ind-1 add 1, ind-4 subtract 1)
 Find PSA: spa = {0, 0, 1, 2, 2, 1, 0} ==> final increments for all the 5 elements = {0, 1, 2, 2, 1}
 
+###### embedded string processing using string replacement
+This method is an alternative way to the recursive method. For example (CCC '05 J5 - Bananas), a valid A-word is defined as: 1# “A” is a A-word, 2#, “ANA” is a A-word, 3# “A”+”N”+another-A-word is also a A-word. A, ANA, ANANA are all valid A-words. How to write a program to check if an input word is a A-word?
+Idea: replace “ANA” with “A” repeatedly, if the final string==“A”, then it is a valid A-word.
+            while (true)
+            { if(word.find("ANA")!=-1) word = regex_replace(word, regex("ANA"), "A");
+		else break;}
 
+###### Reconstruction problem - to reconstruct a sequence
+For example (An Animal Contest 6 P1 - Workout Routine), given a N and a K, reconstruct an array of N such that each element is between 0 and 10**9 and the sum is divisible by K.
+Idea: convert the problem of finding N integers to finding one integer
+construct the first N-1 integers to be 1, 2, 3, … K-1, then find the K-th number to satisfy both conditions (<10**9 and sum % K==0)
 
+Second example (DMOPC '21 Contest 3 P2 - Weak Data): given an input N, generate an array with N even subarrays. 
+Idea: 1) the array can be: 1, 2, 1, 2, 2, 2, 1,…, 2) convert the problem to find x  (the number of 2 in the array), 3) using prefix sum array to find the judge_function(), which is the function used to verify if the generated array is correct or not.
 
+###### digit construction problems
+P-1: construct the search space by digit construction
+For example (Good Number), a good number of d digits is defined as the number with at least (d-1) identical digits, for example (700, 717, 777 are all good numbers), find the min good number starting from a specified number such as 1234, the answer is 1311.
+Idea: do complete search on the solution space which is formed by digit construction. Let’s set the first digit to be 0, 1, 2, 3, …. Or 9, and the remaining 3 digits are set to identical from (000, 111, 222, 333, 444, 555, …, 999), and then do the same to set the second digit to be 0, 1, 2, …9, and the remaining (1st, 3rd, 4th digits) to be 000, 111, 222,….. The solution space: 0000, 0111, 0222, …., 1000, 1111, 1222, 1333, …, 9000, 9111,…, 9999, 0000, 1011, 2022, 3033, …, 0100, 1111, 2122, … (we can remove those which starts with 0)
 
+P-2: palindrome number construction
+For example (Palindromic Numbers), if we want to construct all palindrome numbers in the range [123, 989], we can extract the first half digits and then loop them, the second half digits are reversed from the first half digits. Loop from 12 to 98, we can construct palindromes: 121, 131, 141, 151, ……, 979, 989, but we need to check the first and the last palindrome if they are in the range. (Refer to function: construct_palindroms(int n)
 
+If we just want to count how many palindromes in the range [123, 989], 
+Simple method: loop from 1 to 98, for each number, construct 2 palindromes, for example, 8—> 88 and 8; 124—> 12421 and 124421, for each constructed palindrome, if it is in the specified range, cnt ++;
 
+###### Multiple/factors problems in an array (some elements are multiple of other element)
+Method-1: Sieve algorithms O(N log (log N)) ~= O(N) 
+For example (pair of multiples: given an array: 16 11 6 1 9 11, find how many pairs of multiples, there are 7 pairs (indicated by index (I, j): (1, 4), (2, 4), (3, 4), (5, 4), (6, 4), (2, 6), (6, 2)
+Idea of Sieve algorithms:
+Step-1: create frequency vector of size 17 vec1: {0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 0, 0, 0, 1}
+Step-2: loop from 0 to 17: if vec1[k]>0, cnt += vec1[k]*(vec1[k]-1) // pairs with the elements of the same value
+Step-3: Sieve algorithm, for k, check multiple of k: 2*k, 3*k, 4*k, 5*k, if vec1[m*k]>0, cnt += vec1[k]*(vec1[m*k]) //pair with elements of different value
+Method-2: factorization O(sqrt(N))
+For example (pair of multiples: given an array: 16 11 6 1 9 11, find how many pairs of multiples, there are 7 pairs (indicated by index (I, j): (1, 4), (2, 4), (3, 4), (5, 4), (6, 4), (2, 6), (6, 2)
+Idea:
+Step 1: find the unordered_map<int, int> freq={1: 1, 6: 1, 9: 1, 11:2, 16: 1}
+Step 2: for each element, find factors (O(sqrt(n)) for example, 11 has factors {1, 11}, 
+Step 3: for each factor {1, 11}, 1 has occurrence of 1, we can make a pair {1, 11}, 11 have occurrence of 2, we can make {11, 11}, {11, 11}, but we need to subtract the second {11, 11} since it a pair with itself.
+
+###### Grid problem
+#1: Method-1: using unordered_map <int, int> to records the points horizontally, vertically, or left-diagonally, or right-diagonally
+Availability for N*N grid (queen attack on chess board)
+row_availability = vector<int> row_availability(N, 0);
+col_availability = vector<int> col_availability(N, 0);
+left_diagonal_availability = vector<int> col_availability(2*N-1, 0);
+// check if a point (r, c) is available at left diagonal or not where r>=0, c>=0, for example (0, 2)
+if (left_diagonal_availability(r+c)==0) count << “available” << endl;
+right_diagonal_availability = vector<int> col_availability(2*N-1, 0);
+// check if a point (r, c) is available at right diagonal or not where r>=0, c>=0, for example (0, 2)
+if (left_diagonal_availability(r+n-1-c)==0) count << “available” << endl;
+Better way using unordered_map <int, int> row, col, dia_left, dia_right; example COCI '14 Contest 5 #3 Traktor 
+
+#2 Method-2: bottom-up dynamic programming
+Define states (x, y, state), fill up all states in the grid. 
+Example-1: DMOPC '21 Contest 7 P1 - Chika Grids
+Fill up each cell based on top-left cells and/or bottom right cells.
+Example-2: CCC '22 J5 - Square Pool
+Fill up each cell (the max square) based on the max square ended at the top cell and the max square ended at the left cell.
+
+In some cases, the state can be 5-D such as (x, y, p, s, t) Github: dynamic_programming/bottom_up_4d_states_grid_travel.cpp
+Example: 
+find the number of ways to travel from (0,0) to (N, N) with obstacles (e.g., haybales) in some cells with constraint on max number of turns
+input format:
+	1 # test case
+	4 3 # grid 4*4, max number of turns = 3
+	...H
+	.H..
+	....
+	H...
+Define state matrix: dp[r][c][k][f] represent the number of ways ending at (r, c) with k turns and facing f, facing 0 means toward-east, facing 1 means toward-south
+
+#3 Method-3: embedded loop on all internal points (if the number of points is less than 2000)
+Example-2: CCC '22 J5 - Square Pool
+Idea: loop through every 2 points, use the two points as the left vertical boundary and right vertical boundary, sort all the points inside the boundary, then find the gap between two consecutive inside points, get the max gap
+
+#4 search for a word from the grid
+For example: ECOO '12 R1 P4 - Boggled,
+For example, search ENGLISH from the 4*4 letter grid
+Idea: 1) use unordered_map to record the coordinates of each letter in the grid, 2) loop for all cells with letter E, 3) use recursive method to search all possible path starting from E, 4) there are maybe more than one N in the grid, need to try every path, 5) not allowed to visit the same cell twice, need to use a set to record all visited cells, refer to function: check_existence
+
+#5 Grid travel path
+CCC '05 J4 - Cross Spiral
+Idea: You have two directions: UP and DOWN, start from DOWN, when you go DOWN, your priority is (right—>down—> left), which means if you can go right, do it, else if you can go down, do it, else if you can go left, do it. If you cannot go any of right/down/left, change you direction to UP, when UP, your priority is (left—>up—>right), If you cannot go any of left/up/right, change your direction to DOWN.
+
+###### Number theory
+Example-1 DMOPC '20 Contest 4 P1 - Missing Numbers: Given 2 integers a and b, find the number of pairs of integers (x, y) where 0<x<y<=b) that satisfies x+y=a. For example, a=6, b=5, we can have pairs (2, 4), (1, 5). 
+Idea: 
+x+y=a and x<y —> a/2 < y < a and y<=b —> a/2 < y <= min(a-1, b), so the number of pairs is: min(a-1, b) - a/2. For example a=6, b=5, the number of pairs = min(6-1, 5) - 6/2 = 5-3=2 (1, 5) and (2, 4)
+
+Example-2: Diophantine linear equations DMOPC '21 Contest 9 P1 - Board Numbers
+This kind of problem can be formulated into n-1 linear equations, aiming to find n variables, the problem asks you how many solutions available. For example you have 4 positive integers satisfying x1+x2=5, x2+x3=4, x3+x4=3, find how many solutions available. 
+Idea: find the number of possible solutions for x1, the idea is to narrow down the range for x1,
+1. x1+x2=5 —> x2=5-x1 —> 1<= x1 <=4
+2. x2+x3=4—>x3=4-x2=4-(5-x1)=x1-1 —> 2<=x1 < inf
+3. x3+x4=3 —> x4 = 3-x3 = 3-(4-5+x1)=5-4+3 - x1 ==> 1<=x1 <=3 
+Put together, we have 2<=x1<=3, so x1 has 2 solutions
+
+Example-3: GCD problems: Max GCD
+Given an array [12 15 18], what is the max GCD of all numbers if one of them is replaced to any number.
+Key point 1: gcd(a, b, c) = gcd(a, gcd(b, c))
+Key point 2: given [a, b, c], max gcd after replacing c is equivalent to max gcd after removing c
+Key point 3: prefix gcd and postfix gcd help to reduce time, [a1, a2, a3, a4], we can calculate prefix gcd = [a1, gcd(a1, a2), gcd(a1, a2, a3), gcd(a1, a2, a3, a4)], and postfix gcd = [gcd(a1, a2, a3, a4), gcd(a2, a3, a4), gcd(a3, a4), a4], with prefix and postfix GCDs, we can quickly calculate gcd of [a1, a2, a4] (removing a3) as: gcd( gcd(a1, a2), gcd(a4) ) where gcd(a1, a2) can be obtained from prefix GCDs and gcd(a4) can be obtained from postfix GCDs.
+
+###### binary flapping problems
+# Example-1: a=“10001000001111000001”, you can flip any substring from the front, what is min number of flips you need to make the string to be all 1’s. 
+Idea: 1) simply the string to 1010101, since flip 00000 is equivalent to flip 0, 2) drop the last 1’s since we do not need to change them, then the string is changed to 101010, 3) we need 6 flips (=len(str)) to get all 1’s: flip-1: 001010, flip-2: 111010, flip-3: 000010, flip-4: 111110, flip-5: 000000, flip-6: 1111111
+# example-2 USACO 2022 US Open, Bronze Problem 1. Photoshoot: 
+given string: GHHGHHGHGGGHHG, you can reverse the even-length substring starting from the front, what is the min number of reverses to get max number of G in the even positions.
+Idea: represent GH to F(false), HG to T (true), GG or HH to ., the new string: FT.F.FT, then simplify it to: FTFT, drop the last T, get: FTF, you need 3 reverses: R-1: TTF, R-2: FFF, R-3: TTT
+# Example - 3: you have 26 lights which are originally ON, starting from 1, you toggle every light, and then start from 2, you toggle the even-number lights, and then from 3, you toggle the lights which is multiple of 3, and so on, finally how many lights are ON?
+Idea: for the 8-th light, 8 has factors of 1, 2, 4, 8, so it will be toggled 4 times, finally OFF, for the 9-th light, 9 has factors of 1, 3, 9 (odd number of factors), finally ON. So, only the number with odd number of factors will be ON finally. Only perfect square numbers have odd number of factors. From 1 to 26, there are 5 square numbers: 1, 4, 9, 16, 25. So the answer is: int( sqrt(26)).
+
+###### String problems
+Example-1: recursively remove a substring in O(n) COCI '13 Contest 5 #3 Eksplozjia
+For example (using stack technique), str1=“kababcc”, bomb_str=“abc”, 
+Idea: let str2=“”, loop str1,  append char to str2, if str2.substr(str1.size()-bomb_str.size())==bomb_str, pop_back bomb_str from str2 (do not update str2 by: str2 = str2.substr(0, str1.size()-bomb_str.size()), because str2 is much longer than bomb_str)
+
+Example-2: USACO 2022 US Open, Silver Problem 3. COW Operations
+The string contains only three chars, C, O, W, for example COWOCWCO, you can simplify the string using 2 rules: 1) double chars can be eliminated, 2) any char can be replaced with the other two chars in either other, for example, O can be replaced with CW or WC. So, COWOCWCO can be simplify to be: W. Actually, COWOCWCO is equivalent to: CCCOOOWW—>CO—>W,. In other words, it is only dependent on the counts for each char: {C: 3, O: 3, W: 2}, any event counts can be eliminated to 0, any odd counts can be reduced to 1. Therefore: after simplification, we will have  {C: 1: O: 1, W: 0}, CO can be further simplified to W.
+
+Example-2: string processing using stack Bob's Expression Evaluation
+For example, evaluate prefix expression: * / 5 2 + 2 3
+Idea: reverse it to postfix expression: 3 2 + 2 5 / *, scan the string, if it is an digit, push it into a stack, if it is an operator, pop two numbers from stack, do the computation and then push the result back to the stack (pay attention to: which one the first operand and which is the second operand, in this example, the fist pop is the first operand, the second pop is the second operand)
+
+Example-2a: string processing using stack DMOPC '21 Contest 9 P2 - String Puzzle
+Problem: find is stringA (caabdfgg) can be convert to string B (efh) by merging two consecutive chars into a higher char (for example, ‘aa’==> ‘b’, but cannot convert ‘ZZ’
+Idea: use stack and two pointers, ‘c’ < ‘e’, push ‘c’ into stack, ‘a’ is not equal to ‘c’, push it into stack, ‘a’ is equal to stack.top(), pop stack and push in ‘b’, ‘b’ is equal to stack.top(), pop ‘b’, convert to ‘c’, repeat until  str_a[I]==str_b[j] && stack.isempty(), i++, j++ 
+
+###### Binary search to find the answer (if the question asks an integer as the output)
+Example-1: fins the squared root of 100 by not using sqrt function with precision 1e-3.
+Idea: set left=0, right=100, so mid=50, 50^2>100, so we set left=0, right=50, mid=25, 25^2>100, set left=0, right=25,… until right-left < 1e-3
+Example-2: USACO 2022 US Open, Bronze Problem 3. Alchemy
+Idea: we can set left=0, right=10e6, k=(left+right)/2, check if we can make k metal N, we need to have a function: bool check() to check if we can maker k metal N. We keep guessing until right==left.
+Example-3: Largest Minimum Distance
+Idea: there are 5 seats, numbered as {1, 2, 4, 8, 9}, 3 students sit 3 of 5 seats, what is the max min distance between any two students? The idea is to guess the answer in [1, 9], we first guess 5 if it does not work, we then guess (1+4)/2=2, until left>right.
+Example-4: WC '15 Finals S2 - Hydration
+Problem: 4 cows with ordered heights: [10, 13, 13, 24], a cow of height 10 can drink water in troughs of height int he range [10-5, 10], 4 troughs with ordered heights: [8, 14, 20, 22], each cow drinks water for 1 min, what is the min time for all cow to drink water? Output -1 if impossible.
+Idea: each trough is a serving counter with a queue, we want to find the min of max-queue-length . Use binary search, lo=1, hi=4, mid=2, then use two-pointer to check if 2 works or not, when trough height is 8, cow 1 and 2 can be served, cow 3 cannot be served because the service capacity is 2; when tough is 14, cow 3 cannot be served, failed. We set lo=3, hi=4, mid=3, it works. The answer is 3.
+Example-5: to solve double number problem TLE '17 Contest 7 P3 - Countless Calculator Computations
+Problem: given x^(x^(x^(x…))) = 2, find x with an absolute error of 10^(-5)
+Idea: binary search x, with the step size set to 10^(-6), initially set low=1, high=2, try mid=1.5, if  abs(x^(x^(x^(x…))) - 2) < 10^(-6), break, else if 1.5 is too high, change high = 1.5 - 10^(-6)
+
+###### Tree problems:
+Example-1: DWITE '12 R1 #4 - Trick or Tree'ing
+Ideas: 1) Binary tree with n nodes have n-1 edges, 2) string from root, you need to travel 2*number_edges to visit all nodes and then return back to the root, 3) starting from the root, the min number of edges that he need to travel to visit all the nodes is that he finally stay at the farthest leaf, then the number of edges to travel is: 2*number_of_edges - depth, 4) from a string (((1, 2) (3, 4)), 5), how do we find the number of nodes and the height of the binary tree, the number of nodes = number_of_( + number_of_digits, (e.g., 4 + 5=9), the depth is the highest level of (e.g., 3), so the number of edges to travel starting from root to visit all nodes = 2*(9-1) - 3 = 13
+
+##### Interval problems
+This category gives a series of intervals: [(1, 3), (4, 7), (6, 9), (12, 15)], and ask you to find: 1) combine overlapped intervals, 2) search a query interval in which given interval, for example, interval [5, 7] is in interval (4, 7), need to use lower_bound
+Example-1: SAC '22 Code Challenge 5 P4 - Querying Intervals
+Problem: given a series of intervals [(-5, 4), (7, 9), (10, 14), (16, 19)], determine if all integers in the interval [8, 10] fall within at least one of the given intervals.
+Idea: step-1) combine overlapped intervals into a big interval, [(-5, 4), (7, 14), (16, 19)], since we may combine 2 or more consecutive intervals into a big interval, we use stack to do it, always try to combine the current interval with the stack top interval. Step-2): search is interval [8, 10] falls within one big interval, the method is to first construct vector_upper_bounds = {4, 9, 19}, and then lower_bound search 10, locate interval (7, 14), and then verify if interval [8, 10] is within (7, 14)
+
+##### sliding window problem
+This category usually need to find the sum of the numbers in the sliding window, we just need to get the sum for the first window, denoted as s1, when the sliding window move forward by one unit, s2=s1 + new_number - dropped_number
+Example-1: ICPC PACNW 2016 C - Cameras
+Problem: given a sequence; {0, 0, 1, 0, 0, 1, 0, 0, 0, 1}, how many numbers need to be changed from 0 to 1, such that every consecutive 3 numbers has num >= 2.
+Idea: step-1, deal with the first window [0, 0, 1], we need to fill the second to make it to: [0, 1, 1], and then we move forward one unit at a time, for the 2rd window, we drop v[0]=0 and add v[3]=0, the sum is unchanged, for the third window, we drop v[1]=1 and add v[4]=0, the sum is reduced by 1 to 1, so we need to fill v[4] to 1.
