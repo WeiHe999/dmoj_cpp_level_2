@@ -14,8 +14,7 @@ void topsort(unordered_map <int, unordered_set <int> > &graph, vector <int> &ind
         vec2.emplace_back(v);
         for (auto x : graph[v]) if (--indegree[x] == 0) q.push(x);
     }
-    if (counter > 0 & counter != n ) flag = true;
-    if (counter == 0) flag = true;
+    if (counter < n ) flag = true;
 }
 
 int main()
