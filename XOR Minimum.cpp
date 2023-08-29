@@ -1,84 +1,72 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-#define INT_SIZE 32
-
-struct TrieNode
+struct node
 {
-	int value; // Only used in leaf nodes
-	TrieNode *arr[2];
+    node* child[2];
+    bool end;
 };
 
-TrieNode *newNode()
+node* make_new_node()
 {
-	TrieNode *temp = new TrieNode;
-	temp->value = 0;
-	temp->arr[0] = temp->arr[1] = NULL;
-	return temp;
+    node* node1 = new node();
+    node1->end = false;
+    node1->child[0] = nullptr;
+    node1->child[1] = nullptr;
+    return node1;
 }
 
-void insert(TrieNode *root, int pre_xor)
+void insert(node* root, int n)
 {
-	TrieNode *temp = root;
-
-	for (int i=INT_SIZE-1; i>=0; i--)
-	{
-		bool val = pre_xor & (1<<i);
-
-		if (temp->arr[val] == NULL)
-			temp->arr[val] = newNode();
-
-		temp = temp->arr[val];
-	}
-
-	temp->value = pre_xor;
+    node* cur = root;
+    for (int i = 30; i >= 0; i--)
+    {
+        bool bit = n & (1 << i);
+        if (cur->child[bit] == nullptr) cur->child[bit] = make_new_node();
+        cur = cur->child[bit];
+    }
+    cur->end = true;
 }
 
-int query(TrieNode *root, int pre_xor)
+int query(node* root, int k)
 {
-	TrieNode *temp = root;
-	string str1 = "";
-	for (int i=INT_SIZE-1; i>=0; i--)
-	{
-		bool val = pre_xor & (1<<i);
-
-		if (temp->arr[val]!=NULL)
-		{
-			temp = temp->arr[val];
-			str1 += to_string(val);
-		}
-
-		else if (temp->arr[1-val] != NULL)
-		{
-			temp = temp->arr[1-val];
-			str1 += to_string(1-val);
-		}
-	}
-    int num = stoi(str1, nullptr, 2);
-    return num;
+    node* cur = root;
+    int s = 0;
+    for (int i = 30; i >= 0; i--)
+    {
+        bool bit = k & (1 << i);
+        if (cur->child[bit] != nullptr)
+        {
+            cur = cur->child[bit];
+            if (bit) s += (1 << i);
+        }
+        else
+        {
+            cur = cur->child[1 - bit];
+            if (!bit) s += (1 << i);
+        }
+    }
+    return s;
 }
-
 
 int main()
 {
     cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
-    int n, q, x;
+    int n, q, a, b;
     cin >> n >> q;
-    vector <int> vec1(n + 1);
-    unordered_map<int, int> m1;
-    TrieNode *root = newNode();
-    for (int i = 1; i <= n; i++)
+    node* root = make_new_node();
+    unordered_map <int, int> m1;
+    for (int i = 0; i < n; i++)
     {
-        cin >> vec1[i];
-        insert(root, vec1[i]);
-        if (!m1.count(vec1[i])) m1[vec1[i]] = i-1;
+        cin >> a;
+        insert(root, a);
+        if (!m1.count(a)) m1[a] = i;
     }
-    int k = 0;
+    a = 0;
     for (int i = 1; i <= q; i++)
     {
-        cin >> x;
-        k = x ^ k;
-        int ans = query(root, k);
-        cout << m1[ans] << "\n";
+        cin >> b;
+        a ^= b;
+        cout << m1[query(root, a)] << "\n";
     }
 }
