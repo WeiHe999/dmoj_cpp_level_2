@@ -3,6 +3,20 @@ using namespace std;
 
 vector <long long> seg, lazy, vec1;
 
+void push_down(long long l, long long r, long long ind)
+{
+    long long val = lazy[ind];
+    long long mid = (l + r)/2;
+    // left child
+    seg[2*ind] += (mid - l + 1) * val;
+    lazy[2*ind] += val;
+    // right child
+    seg[ 2 * ind + 1] += (r - mid) * val;
+    lazy[2 * ind + 1] += val;
+    // clear lazy of current node
+    lazy[ind] = 0;
+}
+
 void build(long long l, long long r, long long ind)
 {
     if (l == r)
@@ -16,60 +30,41 @@ void build(long long l, long long r, long long ind)
     seg[ind] = seg[2 * ind] + seg[2 * ind + 1];
 }
 
-
 void update(long long l, long long r, long long ql, long long qr, long long val, long long ind)
 {
-    if (lazy[ind] != 0)
+    if (l == ql && r == qr)
     {
-        seg[ind] += lazy[ind] * (r - l + 1);
-        if (l != r)
-        {
-            lazy[2 * ind] += lazy[ind];
-            lazy[2 * ind + 1] += lazy[ind];
-        }
-        lazy[ind] = 0;
-    }
-    // case-1: segment is outside of query-range
-    if (r < ql || l > qr) return;
-    // case 2: Segment is fully inside the query range:
-    if (l >= ql && r <= qr)
-    {
-        seg[ind] += val * (r - l + 1);
-        if (l != r)
-        {
-            lazy[2 * ind] += val;
-            lazy[2 * ind + 1] += val;
-        }
+        seg[ind] += val * (qr - ql + 1);
+        lazy[ind] += val;
         return;
     }
-    // case 3: they intersect partially,
+    
+    // need to go down to child nodes
+    push_down(l, r, ind);
+    
     long long mid = (l + r) / 2;
-    update(l, mid, ql, qr, val, 2 * ind);
-    update(mid + 1, r, ql, qr, val, 2 * ind + 1);
+    if (qr <= mid) update(l, mid, ql, qr, val, 2 * ind);
+    else if (ql > mid) update(mid + 1, r, ql, qr, val, 2 * ind + 1);
+    else
+    {
+        update(l, mid, ql, mid, val, 2 * ind);
+        update(mid + 1, r, mid + 1, qr, val, 2 * ind + 1);
+    }
     seg[ind] = seg[2 * ind] + seg[2 * ind + 1];
 
 }
 
-
 long long query(long long l, long long r, long long ql, long long qr, long long ind)
 {
-    if (lazy[ind] != 0)
-    {
-        seg[ind] += lazy[ind] * (r - l + 1);
-        if (l != r)
-        {
-            lazy[2 * ind] += lazy[ind];
-            lazy[2 * ind + 1] += lazy[ind];
-        }
-        lazy[ind] = 0;
-    }
-    // case-1: segment is outside of query-range
-    if (r < ql || l > qr) return 0;
-    // case 2: Segment is fully inside the query range:
-    if (l >= ql && r <= qr) return seg[ind];
-    // case 3: they intersect partially,
+
+    if (l == ql && r == qr) return seg[ind];
+    // need to go down to child nodes
+    push_down(l, r, ind);
+    
     long long mid = (l + r) / 2;
-    return query(l, mid, ql, qr, 2 * ind) + query(mid + 1, r, ql, qr, 2 * ind + 1);
+    if (qr <= mid) return query(l, mid, ql, qr, 2 * ind);
+    else if (ql > mid) return query(mid + 1, r, ql, qr, 2 * ind + 1);
+    else return query(l, mid, ql, mid, 2 * ind) + query(mid + 1, r, mid + 1, qr, 2 * ind + 1);
 }
 
 int main()
