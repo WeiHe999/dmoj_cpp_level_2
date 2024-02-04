@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    cin.tie(0); cout.tie(0); cin.sync_with_stdio(0);
+    int n, k, prev = -1, cnt = 0;
+    string str1;
+    cin >> n >> k >> str1;
+    for (int i = 0; i < str1.size() - 1; i++) if (str1[i + 1] == '1') str1[i] = '0';
+    vector <int> vec1;
+    for (int i = 0; i < str1.size(); i++)
+    {
+        if (str1[i] == '1')
+        {
+            cnt++;
+            if (prev != -1 && i - prev > 1) vec1.emplace_back(i - prev - 1);
+            prev = i;
+        }
+    }
+    if (cnt == 0)
+    {
+        if (k > 0) cout << "1\n";
+        else cout << "0\n";
+        return 0;
+    }
+    sort(vec1.begin(), vec1.end());
+    for (int i = 0; i < vec1.size(); i++)
+    {
+        if (k - vec1[i] >= 0)
+        {
+            k -= vec1[i];
+            cnt--;
+        }
+        else break;
+    }
+    cout << cnt << "\n";
+}
