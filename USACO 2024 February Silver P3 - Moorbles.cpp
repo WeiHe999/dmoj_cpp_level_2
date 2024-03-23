@@ -28,7 +28,7 @@ int32_t main()
         if (n + vec2[0] <= 0)
         {
             cout << "-1\n";
-            return 0;
+            continue;
         }
         vector <int> ans;
         for (int i = 0; i < m; i++)
